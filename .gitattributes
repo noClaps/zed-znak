@@ -1,0 +1,46 @@
+* text=auto eol=lf
+
+# Generated grammar source files
+/tree-sitter-znak/src/*.json linguist-generated
+/tree-sitter-znak/src/parser.c linguist-generated
+/tree-sitter-znak/src/tree_sitter/* linguist-generated
+
+# C bindings
+/tree-sitter-znak/bindings/c/** linguist-generated
+/tree-sitter-znak/CMakeLists.txt linguist-generated
+/tree-sitter-znak/Makefile linguist-generated
+
+# Rust bindings
+/tree-sitter-znak/bindings/rust/* linguist-generated
+/tree-sitter-znak/Cargo.toml linguist-generated
+/tree-sitter-znak/Cargo.lock linguist-generated
+
+# Node.js bindings
+/tree-sitter-znak/bindings/node/* linguist-generated
+/tree-sitter-znak/binding.gyp linguist-generated
+/tree-sitter-znak/package.json linguist-generated
+/tree-sitter-znak/package-lock.json linguist-generated
+
+# Python bindings
+/tree-sitter-znak/bindings/python/** linguist-generated
+/tree-sitter-znak/setup.py linguist-generated
+/tree-sitter-znak/pyproject.toml linguist-generated
+
+# Go bindings
+/tree-sitter-znak/bindings/go/* linguist-generated
+/tree-sitter-znak/go.mod linguist-generated
+/tree-sitter-znak/go.sum linguist-generated
+
+# Swift bindings
+/tree-sitter-znak/bindings/swift/** linguist-generated
+/tree-sitter-znak/Package.swift linguist-generated
+/tree-sitter-znak/Package.resolved linguist-generated
+
+# Zig bindings
+/tree-sitter-znak/bindings/zig/* linguist-generated
+/tree-sitter-znak/build.zig linguist-generated
+/tree-sitter-znak/build.zig.zon linguist-generated
+
+# Java bindings
+/tree-sitter-znak/pom.xml linguist-generated
+/tree-sitter-znak/bindings/java/** linguist-generated
