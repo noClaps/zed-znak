@@ -46,6 +46,10 @@ export default grammar({
     $._bracket_start,
     $._bare_link_start,
     $._image_start,
+    $.raw_fence_start,
+    $.raw_content,
+    $.raw_fence_end,
+    $._inline_raw_start,
   ],
 
   rules: {
@@ -73,12 +77,14 @@ export default grammar({
         $.code_block,
         $.container,
         $.math_block,
+        $.raw_block,
         $.table,
         $.horizontal_rule,
         $.paragraph,
       ),
     heading: ($) => seq($.heading_marker, optional($._inline), $._newline),
-    paragraph: ($) => seq($._paragraph_start, $._inline, $._newline),
+    paragraph: ($) =>
+      prec.right(repeat1(seq($._paragraph_start, $._inline, $._newline))),
     blockquote: ($) =>
       prec.right(seq(repeat1($.blockquote_line), optional($.attribution))),
     blockquote_line: ($) =>
@@ -94,18 +100,24 @@ export default grammar({
     unordered_list: ($) => prec.right(repeat1($.unordered_list_item)),
     ordered_list: ($) => prec.right(repeat1($.ordered_list_item)),
     unordered_list_item: ($) =>
-      seq(
-        $.unordered_list_marker,
-        optional($._inline),
-        $._newline,
-        optional($.list_item_body),
+      prec.right(
+        seq(
+          $.unordered_list_marker,
+          optional($._inline),
+          $._newline,
+          repeat($._newline),
+          optional($.list_item_body),
+        ),
       ),
     ordered_list_item: ($) =>
-      seq(
-        $.ordered_list_marker,
-        optional($._inline),
-        $._newline,
-        optional($.list_item_body),
+      prec.right(
+        seq(
+          $.ordered_list_marker,
+          optional($._inline),
+          $._newline,
+          repeat($._newline),
+          optional($.list_item_body),
+        ),
       ),
     list_item_body: ($) =>
       seq($._indent, repeat1(choice($._block, $._newline)), $._dedent),
@@ -132,6 +144,8 @@ export default grammar({
     container_title: ($) => $._inline,
     math_block: ($) =>
       seq($.math_fence_start, optional($.math_content), $.math_fence_end),
+    raw_block: ($) =>
+      seq($.raw_fence_start, optional($.raw_content), $.raw_fence_end),
     table: ($) => prec.right(repeat1(choice($.table_row, $.table_separator))),
     table_row: ($) =>
       seq($.table_marker, repeat1(seq($.table_cell, "|")), $._newline),
@@ -147,6 +161,7 @@ export default grammar({
     _inline_element: ($) => choice($._inline_nonpipe, alias("|", $.text)),
     _inline_nonpipe: ($) =>
       choice(
+        $.inline_raw,
         $.text,
         $.escape,
         $.line_break,
@@ -165,8 +180,8 @@ export default grammar({
         $.bracketed_text,
         $.punctuation,
       ),
-    text: () => /[^\\*\/~_^=`$\[\]<>!|\r\n]+/,
-    punctuation: () => token(prec(-1, /``|[\\*\/~_^=`$\[\]<>!]/)),
+    text: () => /[^\\*\/~_^=`$\[\]<>!|{}\r\n]+/,
+    punctuation: () => token(prec(-1, /``|[\\*\/~_^=`$\[\]<>!{}]/)),
     escape: () => token(prec(2, /\\[^ \r\n]/)),
     line_break: () => "\\ ",
     bold: ($) => formatted($, $._bold_start, "*", "bold"),
@@ -196,6 +211,12 @@ export default grammar({
         $._inline_math_start,
         optional(alias(/[^$\r\n]+/, $.math_content)),
         "$",
+      ),
+    inline_raw: ($) =>
+      seq(
+        $._inline_raw_start,
+        optional(alias(/([^}\r\n]|}[^}\r\n])+/, $.raw_content)),
+        "}}",
       ),
     link: ($) =>
       prec(
@@ -229,6 +250,7 @@ export default grammar({
           $.inline_code,
           $.highlighted_inline_code,
           $.inline_math,
+          $.inline_raw,
           $.bracketed_text,
           alias(token(prec(-1, /[^\]\\\r\n]/)), $.punctuation),
         ),
@@ -257,7 +279,7 @@ function formatted($, start, delimiter, ownRule) {
     "superscript",
     "highlight",
   ];
-  const punctuation = "\\*/~_^=`$[]<>!|".replace(delimiter, "");
+  const punctuation = "\\*/~_^=`$[]<>!|{}".replace(delimiter, "");
   const escaped = punctuation.replace(/[\\\]\[\^\-]/g, "\\$&");
   return seq(
     start,
@@ -267,6 +289,7 @@ function formatted($, start, delimiter, ownRule) {
         $.escape,
         $.line_break,
         ...formats.filter((name) => name !== ownRule).map((name) => $[name]),
+        $.inline_raw,
         $.inline_code,
         $.highlighted_inline_code,
         $.inline_math,

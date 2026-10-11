@@ -71,8 +71,7 @@ Nested inline formatting and escaped delimiters
         (code_content))
       (text)
       (inline_math
-        (math_content))))
-  (paragraph
+        (math_content)))
     (italic
       (text)
       (bold
@@ -99,8 +98,7 @@ Nested inline formatting and escaped delimiters
     (highlight
       (text)
       (bold
-        (text))))
-  (paragraph
+        (text)))
     (bold
       (text)
       (escape)
@@ -167,8 +165,7 @@ Before\ after.
     (text)
     (escape)
     (text)
-    (escape))
-  (paragraph
+    (escape)
     (text)
     (line_break)
     (text)))
@@ -198,8 +195,7 @@ Links images and recursively nested bracket labels
         (bold
           (text)))
       (bare_link
-        (url))))
-  (paragraph
+        (url)))
     (image
       (link_label
         (text)
@@ -213,8 +209,7 @@ Links images and recursively nested bracket labels
         (italic
           (text)))
       (bare_link
-        (url))))
-  (paragraph
+        (url)))
     (link
       (bare_link
         (url)))
@@ -224,8 +219,7 @@ Links images and recursively nested bracket labels
         (url)))
     (text)
     (bare_link
-      (url)))
-  (paragraph
+      (url))
     (bracketed_text
       (link_label
         (text)
@@ -261,60 +255,46 @@ Plain trailing backslash \
   (paragraph
     (text)
     (punctuation)
-    (text))
-  (paragraph
+    (text)
     (text)
     (punctuation)
-    (text))
-  (paragraph
+    (text)
     (text)
     (punctuation)
-    (text))
-  (paragraph
+    (text)
     (text)
     (punctuation)
-    (text))
-  (paragraph
+    (text)
     (text)
     (punctuation)
-    (text))
-  (paragraph
+    (text)
     (text)
     (punctuation)
-    (text))
-  (paragraph
+    (text)
     (text)
     (punctuation)
-    (text))
-  (paragraph
+    (text)
     (text)
     (punctuation)
-    (text))
-  (paragraph
+    (text)
     (text)
     (punctuation)
-    (text))
-  (paragraph
+    (text)
     (text)
     (punctuation)
-    (text))
-  (paragraph
+    (text)
     (text)
     (punctuation)
-    (text))
-  (paragraph
+    (text)
     (text)
     (punctuation)
-    (text))
-  (paragraph
+    (text)
     (text)
     (punctuation)
-    (text))
-  (paragraph
+    (text)
     (text)
     (punctuation)
-    (text))
-  (paragraph
+    (text)
     (text)
     (punctuation))
   (heading
@@ -338,11 +318,9 @@ Plain x=y
   (paragraph
     (highlight
       (text))
-    (text))
-  (paragraph
+    (text)
     (highlight)
-    (text))
-  (paragraph
+    (text)
     (text)
     (highlight
       (text))
@@ -360,8 +338,7 @@ Plain x=y
   (paragraph
     (text)
     (punctuation)
-    (text))
-  (paragraph
+    (text)
     (text)
     (punctuation)
     (text)))
@@ -386,8 +363,7 @@ Highlighted ``js a`b`` code.
     (text)
     (inline_math
       (math_content))
-    (text))
-  (paragraph
+    (text)
     (text)
     (highlighted_inline_code
       (inline_language)

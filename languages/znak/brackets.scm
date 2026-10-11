@@ -13,3 +13,7 @@
 (frontmatter
   (frontmatter_start) @open
   (frontmatter_end) @close)
+
+(raw_block
+  (raw_fence_start) @open
+  (raw_fence_end) @close)

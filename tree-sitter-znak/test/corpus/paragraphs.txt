@@ -1,0 +1,192 @@
+================================================================================ ZNAK
+Whitespace only blank lines split multiline paragraphs
+================================================================================ ZNAK
+First line.
+Second line.
+   
+Third line.
+Fourth line.
+	 	
+Fifth line.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (text)
+    (text))
+  (paragraph
+    (text)
+    (text))
+  (paragraph
+    (text)))
+
+================================================================================ ZNAK
+List continuation allows blank separated multiline paragraphs
+================================================================================ ZNAK
+- Item
+
+  First body line.
+  Second body line.
+
+
+  Next paragraph line.
+  More of next paragraph.
+- Sibling
+
+  Sibling body.
+
+Outside first line.
+Outside second line.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (unordered_list
+    (unordered_list_item
+      (unordered_list_marker)
+      (text)
+      (list_item_body
+        (paragraph
+          (text)
+          (text))
+        (paragraph
+          (text)
+          (text))))
+    (unordered_list_item
+      (unordered_list_marker)
+      (text)
+      (list_item_body
+        (paragraph
+          (text)))))
+  (paragraph
+    (text)
+    (text)))
+
+================================================================================ ZNAK
+Compiler collatz fixture blank line before indented fenced code
+================================================================================ ZNAK
++ Make a new Python program and type in the following code:
+
+  ```py
+  def collatz(n:int): # make collatz function
+      while n != 1: # tell code to keep running until it reaches 1
+          if n % 2: # if number is odd, multiply by 3 and add 1
+              n = n*3 + 1
+          else: # else, if number is even, halve it
+              n //= 2
+          print(n) # output number onto screen
+
+  num = int(input("Enter a number to test: ")) # ask user for number to test
+  collatz(num) # run the collatz function with the number you type in
+  ```
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (ordered_list
+    (ordered_list_item
+      (ordered_list_marker)
+      (text)
+      (list_item_body
+        (code_block
+          (code_fence_start)
+          (language)
+          (code_content)
+          (code_fence_end))))))
+
+================================================================================ ZNAK
+Nested lists allow blank lines before bodies and dedent through siblings
+================================================================================ ZNAK
+- Outer
+
+  + Inner
+
+    Deep paragraph first line.
+    Deep paragraph second line.
+
+    - Deep list
+
+      Deep list body.
+
+    - Deep sibling
+
+  + Inner sibling
+
+  Outer paragraph after inner list.
+
+- Outer sibling
+
+Outside.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (unordered_list
+    (unordered_list_item
+      (unordered_list_marker)
+      (text)
+      (list_item_body
+        (ordered_list
+          (ordered_list_item
+            (ordered_list_marker)
+            (text)
+            (list_item_body
+              (paragraph
+                (text)
+                (text))
+              (unordered_list
+                (unordered_list_item
+                  (unordered_list_marker)
+                  (text)
+                  (list_item_body
+                    (paragraph
+                      (text))))
+                (unordered_list_item
+                  (unordered_list_marker)
+                  (text)))))
+          (ordered_list_item
+            (ordered_list_marker)
+            (text)))
+        (paragraph
+          (text))))
+    (unordered_list_item
+      (unordered_list_marker)
+      (text)))
+  (paragraph
+    (text)))
+
+================================================================================ ZNAK
+Nonblank tab prefixed lines remain text at top level and in lists
+================================================================================ ZNAK
+	Nonblank text.
+	= Not a heading
+	- Not a list
+
+- Item
+  	= Not a heading in the item
+  	- Not a nested list
+- Sibling
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (text)
+    (text)
+    (punctuation)
+    (text)
+    (text))
+  (unordered_list
+    (unordered_list_item
+      (unordered_list_marker)
+      (text)
+      (list_item_body
+        (paragraph
+          (text)
+          (punctuation)
+          (text)
+          (text))))
+    (unordered_list_item
+      (unordered_list_marker)
+      (text))))

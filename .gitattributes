@@ -1,5 +1,8 @@
 * text=auto eol=lf
 
+# Preserve literal CRLF bytes in the raw-block regression fixture.
+/tree-sitter-znak/test/corpus/raw.txt -text
+
 # Generated grammar source files
 /tree-sitter-znak/src/*.json linguist-generated
 /tree-sitter-znak/src/parser.c linguist-generated

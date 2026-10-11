@@ -18,6 +18,8 @@
 (highlighted_inline_code) @text.literal
 (code_content) @text.literal
 (math_content) @text.literal
+(raw_content) @text.literal
+(inline_raw) @text.literal
 (inline_math) @text.literal
 
 (link_label) @link_text
@@ -35,6 +37,9 @@
 (container_fence_end) @punctuation.delimiter
 (math_fence_start) @punctuation.delimiter
 (math_fence_end) @punctuation.delimiter
+(raw_fence_start) @punctuation.delimiter
+(raw_fence_end) @punctuation.delimiter
+(inline_raw "}}" @punctuation.delimiter)
 (container_name) @type
 (container_title) @title
 (language) @label

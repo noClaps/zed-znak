@@ -132,8 +132,7 @@ Final paragraph.
 (source_file
   (comment)
   (paragraph
-    (text))
-  (paragraph
+    (text)
     (text))
   (comment)
   (paragraph

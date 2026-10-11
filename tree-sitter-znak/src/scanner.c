@@ -38,6 +38,10 @@ enum Token {
   BRACKET_START,
   BARE_LINK_START,
   IMAGE_START,
+  RAW_FENCE_START,
+  RAW_CONTENT,
+  RAW_FENCE_END,
+  INLINE_RAW_START,
 };
 
 #define MAX_DEPTH 100
@@ -51,6 +55,7 @@ typedef struct {
   bool math;
   bool frontmatter;
   bool eof_newline;
+  bool raw;
 } Scanner;
 
 static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
@@ -82,6 +87,7 @@ unsigned tree_sitter_znak_external_scanner_serialize(void *payload,
   buffer[n++] = s->math;
   buffer[n++] = s->frontmatter;
   buffer[n++] = s->eof_newline;
+  buffer[n++] = s->raw;
   for (unsigned i = 0; i < s->container_depth; i++) {
     buffer[n++] = s->containers[i] & 255;
     buffer[n++] = s->containers[i] >> 8;
@@ -98,7 +104,7 @@ void tree_sitter_znak_external_scanner_deserialize(void *payload,
                                                    unsigned length) {
   Scanner *s = payload;
   memset(s, 0, sizeof(*s));
-  if (length < 7)
+  if (length < 8)
     return;
   const uint8_t *b = (const uint8_t *)buffer;
   s->code_fence = b[0] | (b[1] << 8);
@@ -107,12 +113,13 @@ void tree_sitter_znak_external_scanner_deserialize(void *payload,
   s->math = b[4];
   s->frontmatter = b[5];
   s->eof_newline = b[6];
+  s->raw = b[7];
   if (s->container_depth > MAX_DEPTH || s->indent_depth > MAX_DEPTH ||
-      length != 7u + 2u * (s->container_depth + s->indent_depth)) {
+      length != 8u + 2u * (s->container_depth + s->indent_depth)) {
     memset(s, 0, sizeof(*s));
     return;
   }
-  unsigned n = 7;
+  unsigned n = 8;
   for (unsigned i = 0; i < s->container_depth; i++, n += 2)
     s->containers[i] = b[n] | (b[n + 1] << 8);
   for (unsigned i = 0; i < s->indent_depth; i++, n += 2)
@@ -122,13 +129,14 @@ void tree_sitter_znak_external_scanner_deserialize(void *payload,
 // Raw blocks stop only at an exact fence on a line of its own. Shorter
 // backtick fences therefore remain code, rather than opening nested blocks.
 static bool raw_block(Scanner *s, TSLexer *lexer, const bool *valid,
-                      bool math) {
-  enum Token content = math ? MATH_CONTENT : CODE_CONTENT;
-  enum Token end = math ? MATH_FENCE_END : CODE_FENCE_END;
+                      enum Token content) {
+  bool math = content == MATH_CONTENT;
+  bool raw = content == RAW_CONTENT;
+  enum Token end = raw ? RAW_FENCE_END : math ? MATH_FENCE_END : CODE_FENCE_END;
   if (!valid[content] && !valid[end])
     return false;
-  int delimiter = math ? '$' : '`';
-  unsigned length = math ? 2 : s->code_fence;
+  int delimiter = raw ? '}' : math ? '$' : '`';
+  unsigned length = raw || math ? 2 : s->code_fence;
   bool consumed = false;
   lexer->mark_end(lexer);
   while (!lexer->eof(lexer)) {
@@ -152,7 +160,9 @@ static bool raw_block(Scanner *s, TSLexer *lexer, const bool *valid,
       if (!valid[end])
         return false;
       finish_line(lexer);
-      if (math)
+      if (raw)
+        s->raw = false;
+      else if (math)
         s->math = false;
       else
         s->code_fence = 0;
@@ -175,6 +185,25 @@ static bool raw_block(Scanner *s, TSLexer *lexer, const bool *valid,
 static bool inline_start(TSLexer *lexer, const bool *valid) {
   int delimiter = lexer->lookahead;
   enum Token symbol;
+  if (delimiter == '{' && valid[INLINE_RAW_START]) {
+    advance(lexer);
+    if (lexer->lookahead != '{')
+      return false;
+    advance(lexer);
+    lexer->mark_end(lexer);
+    while (!eol(lexer)) {
+      if (lexer->lookahead == '}') {
+        advance(lexer);
+        if (lexer->lookahead == '}') {
+          lexer->result_symbol = INLINE_RAW_START;
+          return true;
+        }
+      } else {
+        advance(lexer);
+      }
+    }
+    return false;
+  }
   if (delimiter == '[' || delimiter == '<' || delimiter == '!') {
     bool image = delimiter == '!';
     symbol = image              ? IMAGE_START
@@ -276,18 +305,21 @@ bool tree_sitter_znak_external_scanner_scan(void *payload, TSLexer *lexer,
   if (valid[INDENT] && valid[CODE_CONTENT] && valid[FRONTMATTER_START])
     return false;
   if (s->code_fence && (valid[CODE_CONTENT] || valid[CODE_FENCE_END]))
-    return raw_block(s, lexer, valid, false);
+    return raw_block(s, lexer, valid, CODE_CONTENT);
   if (s->math && (valid[MATH_CONTENT] || valid[MATH_FENCE_END]))
-    return raw_block(s, lexer, valid, true);
+    return raw_block(s, lexer, valid, MATH_CONTENT);
+  if (s->raw && (valid[RAW_CONTENT] || valid[RAW_FENCE_END]))
+    return raw_block(s, lexer, valid, RAW_CONTENT);
 
   if (!valid[PARAGRAPH_START] && !valid[HEADING_MARKER] &&
       lexer->lookahead > 0 && lexer->lookahead < 128 &&
-      strchr("*/~_^=`$[<!", lexer->lookahead) &&
+      strchr("*/~_^=`$[<!{", lexer->lookahead) &&
       (valid[BOLD_START] || valid[ITALIC_START] || valid[STRIKETHROUGH_START] ||
        valid[SUBSCRIPT_START] || valid[SUPERSCRIPT_START] ||
        valid[HIGHLIGHT_START] || valid[INLINE_CODE_START] ||
        valid[HIGHLIGHTED_CODE_START] || valid[INLINE_MATH_START] ||
-       valid[BRACKET_START] || valid[BARE_LINK_START] || valid[IMAGE_START]))
+       valid[BRACKET_START] || valid[BARE_LINK_START] || valid[IMAGE_START] ||
+       valid[INLINE_RAW_START]))
     return inline_start(lexer, valid);
 
   lexer->mark_end(lexer);
@@ -321,6 +353,32 @@ bool tree_sitter_znak_external_scanner_scan(void *payload, TSLexer *lexer,
       indent++;
       lexer->advance(lexer, true);
     }
+    lexer->mark_end(lexer);
+    bool tabs = false;
+    while (lexer->lookahead == '\t' || (tabs && lexer->lookahead == ' ')) {
+      tabs = true;
+      lexer->advance(lexer, true);
+    }
+    if (tabs && !eol(lexer)) {
+      // Tabs can make a blank line, but only literal spaces nest list items.
+      // Keep nonblank tab-prefixed lines as paragraph content.
+      if (indent < current && valid[DEDENT]) {
+        s->indent_depth--;
+        lexer->result_symbol = DEDENT;
+        return true;
+      }
+      if (indent >= current + 2 && valid[INDENT] &&
+          s->indent_depth < MAX_DEPTH) {
+        s->indents[s->indent_depth++] = indent;
+        lexer->result_symbol = INDENT;
+        return true;
+      }
+      if (valid[PARAGRAPH_START]) {
+        lexer->result_symbol = PARAGRAPH_START;
+        return true;
+      }
+      return false;
+    }
     if (!eol(lexer)) {
       if (indent < current && valid[DEDENT]) {
         s->indent_depth--;
@@ -336,12 +394,30 @@ bool tree_sitter_znak_external_scanner_scan(void *payload, TSLexer *lexer,
       }
     }
     lexer->mark_end(lexer);
+    if (valid[NEWLINE] &&
+        (lexer->lookahead == '\n' || lexer->lookahead == '\r')) {
+      finish_line(lexer);
+      s->eof_newline = false;
+      lexer->result_symbol = NEWLINE;
+      return true;
+    }
   }
   if (!line_start && !valid[HEADING_MARKER])
     return false;
 
   int c = lexer->lookahead;
-  if (c == '=' && valid[HEADING_MARKER]) {
+  if (line_start && c == '{' && valid[RAW_FENCE_START]) {
+    advance(lexer);
+    if (lexer->lookahead == '{') {
+      advance(lexer);
+      while (!eol(lexer))
+        advance(lexer);
+      s->raw = true;
+      finish_line(lexer);
+      lexer->result_symbol = RAW_FENCE_START;
+      return true;
+    }
+  } else if (c == '=' && valid[HEADING_MARKER]) {
     do {
       advance(lexer);
     } while (lexer->lookahead == '=');

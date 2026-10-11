@@ -1,0 +1,329 @@
+================================================================================ ZNAK
+Raw blocks interrupt paragraphs and keep markup opaque
+================================================================================ ZNAK
+Before raw.
+{{
+<div>*bold* /italic/ [link]<url> $math$ `code`</div>
+= Not a heading
+- Not a list
+| Not | a table |
+\\ Not a comment
+{{ not a nested opener
+
+}}
+After raw.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (text))
+  (raw_block
+    (raw_fence_start)
+    (raw_content)
+    (raw_fence_end))
+  (paragraph
+    (text)))
+
+================================================================================ ZNAK
+Raw opening line starts with braces and ignores trailing text
+================================================================================ ZNAK
+{{ ignored *opening* text }}
+Body only.
+}}
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (raw_block
+    (raw_fence_start)
+    (raw_content)
+    (raw_fence_end)))
+
+================================================================================ ZNAK
+Raw closing fence must be an exact line
+================================================================================ ZNAK
+{{
+}}}
+}} trailing text
+ }}
+}}
+= After exact close
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (raw_block
+    (raw_fence_start)
+    (raw_content)
+    (raw_fence_end))
+  (heading
+    (heading_marker)
+    (text)))
+
+================================================================================ ZNAK
+Empty raw blocks have no content node
+================================================================================ ZNAK
+{{
+}}
+
+{{ ignored opening line
+}}
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (raw_block
+    (raw_fence_start)
+    (raw_fence_end))
+  (raw_block
+    (raw_fence_start)
+    (raw_fence_end)))
+
+================================================================================ ZNAK
+Raw blocks inside containers keep markup opaque
+================================================================================ ZNAK
+::: note Raw title
+{{
+<div>*literal* $literal$ `literal`</div>
+::: fake
+= Not a heading
+}}
+Inside after raw.
+:::
+Outside.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (container
+    (container_fence_start)
+    (container_name)
+    (container_title
+      (text))
+    (raw_block
+      (raw_fence_start)
+      (raw_content)
+      (raw_fence_end))
+    (paragraph
+      (text))
+    (container_fence_end))
+  (paragraph
+    (text)))
+
+================================================================================ ZNAK
+Raw in an indented list after blank lines closes before sibling and dedent
+================================================================================ ZNAK
+- Item
+
+
+  {{ ignored opener
+  *literal*
+  }}}
+  }} trailing text
+  }}
+  After raw inside item.
+- Sibling
+
+Outside.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (unordered_list
+    (unordered_list_item
+      (unordered_list_marker)
+      (text)
+      (list_item_body
+        (raw_block
+          (raw_fence_start)
+          (raw_content)
+          (raw_fence_end))
+        (paragraph
+          (text))))
+    (unordered_list_item
+      (unordered_list_marker)
+      (text)))
+  (paragraph
+    (text)))
+
+================================================================================ ZNAK
+Inline raw markup is opaque and single braces remain content
+================================================================================ ZNAK
+Before {{*bold* /italic/ ~strike~ _sub_ ^super^ =mark= `code` $math$ [label]<url> \* | {single} end}} after.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (text)
+    (inline_raw
+      (raw_content))
+    (text)))
+
+================================================================================ ZNAK
+Empty inline raw spans and adjacent spans
+================================================================================ ZNAK
+Empty {{}} and {{}}{{value}}.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (text)
+    (inline_raw)
+    (text)
+    (inline_raw)
+    (inline_raw
+      (raw_content))
+    (text)))
+
+================================================================================ ZNAK
+Inline raw in a heading link label and formatting
+================================================================================ ZNAK
+= Heading {{*literal*}} end
+[Label {{/literal/}}]<https://example.org>
+*Bold {{/literal/}} end* /Italic {{_literal_}} end/ =Mark {{^literal^}} end=
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (heading
+    (heading_marker)
+    (text)
+    (inline_raw
+      (raw_content))
+    (text))
+  (paragraph
+    (link
+      (link_label
+        (text)
+        (inline_raw
+          (raw_content)))
+      (bare_link
+        (url)))
+    (bold
+      (text)
+      (inline_raw
+        (raw_content))
+      (text))
+    (text)
+    (italic
+      (text)
+      (inline_raw
+        (raw_content))
+      (text))
+    (text)
+    (highlight
+      (text)
+      (inline_raw
+        (raw_content))
+      (text))))
+
+================================================================================ ZNAK
+Escaped braces do not open raw and unpaired braces stay literal
+================================================================================ ZNAK
+\{\{literal\}\}
+Plain { brace } and }} close.
+Plain {{ unpaired opener
+= Heading after unpaired braces
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (escape)
+    (escape)
+    (text)
+    (escape)
+    (escape)
+    (text)
+    (punctuation)
+    (text)
+    (punctuation)
+    (text)
+    (punctuation)
+    (punctuation)
+    (text)
+    (text)
+    (punctuation)
+    (punctuation)
+    (text))
+  (heading
+    (heading_marker)
+    (text)))
+
+================================================================================ ZNAK
+Inline code math and raw preserve each others delimiters
+================================================================================ ZNAK
+Code `{{raw}} $math$ *bold*` math ${{raw}} `code` *bold*$ raw {{`code` $math$ *bold*}}.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (text)
+    (inline_code
+      (code_content))
+    (text)
+    (inline_math
+      (math_content))
+    (text)
+    (inline_raw
+      (raw_content))
+    (text)))
+
+================================================================================ ZNAK
+Code math and raw blocks keep distinct fence nodes
+================================================================================ ZNAK
+```text
+{{
+}}
+$$
+```
+$$
+{{
+}}
+```
+$$
+{{
+```
+$$
+}}
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (code_block
+    (code_fence_start)
+    (language)
+    (code_content)
+    (code_fence_end))
+  (math_block
+    (math_fence_start)
+    (math_content)
+    (math_fence_end))
+  (raw_block
+    (raw_fence_start)
+    (raw_content)
+    (raw_fence_end)))
+
+================================================================================ ZNAK
+CRLF raw block closes at an exact fence
+================================================================================ ZNAK
+{{ ignored opening text
+*literal* $math$ `code`
+}}}
+}} trailing text
+}}
+After raw.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (raw_block
+    (raw_fence_start)
+    (raw_content)
+    (raw_fence_end))
+  (paragraph
+    (text)))

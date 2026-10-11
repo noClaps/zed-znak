@@ -125,3 +125,45 @@ EOF table row without trailing newline
         (text))
       (table_cell
         (text)))))
+
+================================================================================ ZNAK
+EOF raw closing fence without trailing newline
+================================================================================ ZNAK
+{{ ignored opening text
+*raw* $math$ `code`
+}}}
+}} trailing text
+}}
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (raw_block
+    (raw_fence_start)
+    (raw_content)
+    (raw_fence_end)))
+
+================================================================================ ZNAK
+EOF empty raw closing fence without trailing newline
+================================================================================ ZNAK
+{{
+}}
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (raw_block
+    (raw_fence_start)
+    (raw_fence_end)))
+
+================================================================================ ZNAK
+EOF inline raw without trailing newline
+================================================================================ ZNAK
+Last {{*literal*}} and {{}}
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (text)
+    (inline_raw
+      (raw_content))
+    (text)
+    (inline_raw)))
