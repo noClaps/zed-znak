@@ -6,7 +6,12 @@
       "camelcase": "Znak",
       "title": "Znak",
       "scope": "source.znak",
-      "file-types": ["znak", "zn"],
+      "file-types": [
+        "znak",
+        "zn"
+      ],
+      "highlights": "queries/highlights.scm",
+      "injections": "queries/injections.scm",
       "injection-regex": "^znak$",
       "class-name": "TreeSitterZnak"
     }
@@ -23,8 +28,7 @@
       }
     ],
     "links": {
-      "repository": "https://github.com/noClaps/zed-znak",
-      "funding": ""
+      "repository": "https://github.com/noClaps/zed-znak"
     }
   },
   "bindings": {
@@ -33,7 +37,7 @@
     "java": false,
     "node": false,
     "python": false,
-    "rust": false,
+    "rust": true,
     "swift": false,
     "zig": false
   }
