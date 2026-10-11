@@ -1,0 +1,127 @@
+================================================================================ ZNAK
+EOF paragraph without trailing newline
+================================================================================ ZNAK
+Last paragraph.
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (text)))
+
+================================================================================ ZNAK
+EOF heading without trailing newline
+================================================================================ ZNAK
+= Last heading
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (heading
+    (heading_marker)
+    (text)))
+
+================================================================================ ZNAK
+EOF nested list dedents without trailing newline
+================================================================================ ZNAK
+- Outer
+  + Inner
+    - Deep
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (unordered_list
+    (unordered_list_item
+      (unordered_list_marker)
+      (text)
+      (list_item_body
+        (ordered_list
+          (ordered_list_item
+            (ordered_list_marker)
+            (text)
+            (list_item_body
+              (unordered_list
+                (unordered_list_item
+                  (unordered_list_marker)
+                  (text))))))))))
+
+================================================================================ ZNAK
+EOF code closing fence without trailing newline
+================================================================================ ZNAK
+````text
+```
+raw
+````
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (code_block
+    (code_fence_start)
+    (language)
+    (code_content)
+    (code_fence_end)))
+
+================================================================================ ZNAK
+EOF nested container closing fence without trailing newline
+================================================================================ ZNAK
+:::: outer
+::: inner
+Content.
+:::
+::::
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (container
+    (container_fence_start)
+    (container_name)
+    (container
+      (container_fence_start)
+      (container_name)
+      (paragraph
+        (text))
+      (container_fence_end))
+    (container_fence_end)))
+
+================================================================================ ZNAK
+EOF math closing fence without trailing newline
+================================================================================ ZNAK
+$$
+x=y
+$$
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (math_block
+    (math_fence_start)
+    (math_content)
+    (math_fence_end)))
+
+================================================================================ ZNAK
+EOF frontmatter closing fence without trailing newline
+================================================================================ ZNAK
+---
+key=a=b
+---
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (frontmatter
+    (frontmatter_start)
+    (frontmatter_entry
+      (frontmatter_key)
+      (frontmatter_value))
+    (frontmatter_end)))
+
+================================================================================ ZNAK
+EOF table row without trailing newline
+================================================================================ ZNAK
+| One | Two |
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (table
+    (table_row
+      (table_marker)
+      (table_cell
+        (text))
+      (table_cell
+        (text)))))

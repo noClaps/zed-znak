@@ -1,0 +1,395 @@
+================================================================================ ZNAK
+All inline formatting code math and explicit line break
+================================================================================ ZNAK
+Text *bold*, /italic/, ~strike~, _sub_, ^super^, =highlight=, `code`, ``py print("hi")``, $x+y$, and a break\ continued.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (text)
+    (bold
+      (text))
+    (text)
+    (italic
+      (text))
+    (text)
+    (strikethrough
+      (text))
+    (text)
+    (subscript
+      (text))
+    (text)
+    (superscript
+      (text))
+    (text)
+    (highlight
+      (text))
+    (text)
+    (inline_code
+      (code_content))
+    (text)
+    (highlighted_inline_code
+      (inline_language)
+      (code_content))
+    (text)
+    (inline_math
+      (math_content))
+    (text)
+    (line_break)
+    (text)))
+
+================================================================================ ZNAK
+Nested inline formatting and escaped delimiters
+================================================================================ ZNAK
+*bold /italic/ ~strike~ _sub_ ^super^ =highlight= `code` $x$*
+/italic *bold*/ ~strike *bold* /italic/~ _sub *bold*_ ^super /italic/^ =highlight *bold*=
+*escaped \* star* /escaped \/ slash/ =escaped \= equals=
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (bold
+      (text)
+      (italic
+        (text))
+      (text)
+      (strikethrough
+        (text))
+      (text)
+      (subscript
+        (text))
+      (text)
+      (superscript
+        (text))
+      (text)
+      (highlight
+        (text))
+      (text)
+      (inline_code
+        (code_content))
+      (text)
+      (inline_math
+        (math_content))))
+  (paragraph
+    (italic
+      (text)
+      (bold
+        (text)))
+    (text)
+    (strikethrough
+      (text)
+      (bold
+        (text))
+      (text)
+      (italic
+        (text)))
+    (text)
+    (subscript
+      (text)
+      (bold
+        (text)))
+    (text)
+    (superscript
+      (text)
+      (italic
+        (text)))
+    (text)
+    (highlight
+      (text)
+      (bold
+        (text))))
+  (paragraph
+    (bold
+      (text)
+      (escape)
+      (text))
+    (text)
+    (italic
+      (text)
+      (escape)
+      (text))
+    (text)
+    (highlight
+      (text)
+      (escape)
+      (text))))
+
+================================================================================ ZNAK
+Escapes keep markup literal and line breaks distinct
+================================================================================ ZNAK
+\*bold\* \/italic\/ \~strike\~ \_sub\_ \^super\^ \=highlight\= \`code\` \$math\$ \[label\]\<url\> \! \\
+Before\ after.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape))
+  (paragraph
+    (text)
+    (line_break)
+    (text)))
+
+================================================================================ ZNAK
+Links images and recursively nested bracket labels
+================================================================================ ZNAK
+[outer [inner [deep]] and *bold*]<https://example.org/a?x=1&y=2>
+![caption [nested [deep]] and /italic/]<https://example.org/image.png>
+[]<https://example.org> ![]<image.png> <https://example.org/bare>
+[ordinary [nested] brackets]
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (link
+      (link_label
+        (text)
+        (bracketed_text
+          (link_label
+            (text)
+            (bracketed_text
+              (link_label
+                (text)))))
+        (text)
+        (bold
+          (text)))
+      (bare_link
+        (url))))
+  (paragraph
+    (image
+      (link_label
+        (text)
+        (bracketed_text
+          (link_label
+            (text)
+            (bracketed_text
+              (link_label
+                (text)))))
+        (text)
+        (italic
+          (text)))
+      (bare_link
+        (url))))
+  (paragraph
+    (link
+      (bare_link
+        (url)))
+    (text)
+    (image
+      (bare_link
+        (url)))
+    (text)
+    (bare_link
+      (url)))
+  (paragraph
+    (bracketed_text
+      (link_label
+        (text)
+        (bracketed_text
+          (link_label
+            (text)))
+        (text)))))
+
+================================================================================ ZNAK
+Plain unpaired punctuation does not consume following blocks
+================================================================================ ZNAK
+Plain * star
+Plain / slash
+Plain ~ tilde
+Plain _ underscore
+Plain ^ caret
+Plain = equals
+Plain ` backtick
+Plain `` double backtick
+Plain $ dollar
+Plain [ open bracket
+Plain ] close bracket
+Plain < less than
+Plain > greater than
+Plain ! exclamation
+Plain trailing backslash \
+
+= Heading after punctuation
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (text)
+    (punctuation)
+    (text))
+  (paragraph
+    (text)
+    (punctuation)
+    (text))
+  (paragraph
+    (text)
+    (punctuation)
+    (text))
+  (paragraph
+    (text)
+    (punctuation)
+    (text))
+  (paragraph
+    (text)
+    (punctuation)
+    (text))
+  (paragraph
+    (text)
+    (punctuation)
+    (text))
+  (paragraph
+    (text)
+    (punctuation)
+    (text))
+  (paragraph
+    (text)
+    (punctuation)
+    (text))
+  (paragraph
+    (text)
+    (punctuation)
+    (text))
+  (paragraph
+    (text)
+    (punctuation)
+    (text))
+  (paragraph
+    (text)
+    (punctuation)
+    (text))
+  (paragraph
+    (text)
+    (punctuation)
+    (text))
+  (paragraph
+    (text)
+    (punctuation)
+    (text))
+  (paragraph
+    (text)
+    (punctuation)
+    (text))
+  (paragraph
+    (text)
+    (punctuation))
+  (heading
+    (heading_marker)
+    (text)))
+
+================================================================================ ZNAK
+Heading markers versus inline highlights and literal equals
+================================================================================ ZNAK
+=highlight= at paragraph start
+==not a heading
+Text =highlight= in paragraph
+= Actual heading with =highlight=
+== Heading with *bold*
+Plain a=b
+Plain x=y
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (highlight
+      (text))
+    (text))
+  (paragraph
+    (highlight)
+    (text))
+  (paragraph
+    (text)
+    (highlight
+      (text))
+    (text))
+  (heading
+    (heading_marker)
+    (text)
+    (highlight
+      (text)))
+  (heading
+    (heading_marker)
+    (text)
+    (bold
+      (text)))
+  (paragraph
+    (text)
+    (punctuation)
+    (text))
+  (paragraph
+    (text)
+    (punctuation)
+    (text)))
+
+================================================================================ ZNAK
+Doubled backticks without language empty math and highlighted code
+================================================================================ ZNAK
+Empty `` and $$ alongside `code` and $x$.
+Highlighted ``js a`b`` code.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (text)
+    (punctuation)
+    (text)
+    (inline_math)
+    (text)
+    (inline_code
+      (code_content))
+    (text)
+    (inline_math
+      (math_content))
+    (text))
+  (paragraph
+    (text)
+    (highlighted_inline_code
+      (inline_language)
+      (code_content))
+    (text)))

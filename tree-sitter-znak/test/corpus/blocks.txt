@@ -1,0 +1,522 @@
+================================================================================ ZNAK
+Frontmatter splits on first equals and permits empty values
+================================================================================ ZNAK
+---
+key=value
+title = a title that contains = equal signs
+equation=a=b=c
+empty=
+spaced = 
+---
+
+Body after metadata.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (frontmatter
+    (frontmatter_start)
+    (frontmatter_entry
+      (frontmatter_key)
+      (frontmatter_value))
+    (frontmatter_entry
+      (frontmatter_key)
+      (frontmatter_value))
+    (frontmatter_entry
+      (frontmatter_key)
+      (frontmatter_value))
+    (frontmatter_entry
+      (frontmatter_key))
+    (frontmatter_entry
+      (frontmatter_key)
+      (frontmatter_value))
+    (frontmatter_end))
+  (paragraph
+    (text)))
+
+================================================================================ ZNAK
+Frontmatter is optional triple dashes are text and longer dashes are rules
+================================================================================ ZNAK
+Before metadata-like delimiters.
+
+---
+
+After the rule.
+
+-----
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (text))
+  (paragraph
+    (text))
+  (paragraph
+    (text))
+  (horizontal_rule))
+
+================================================================================ ZNAK
+Empty frontmatter followed by literal triple dashes and a rule
+================================================================================ ZNAK
+---
+---
+
+---
+-----
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (frontmatter
+    (frontmatter_start)
+    (frontmatter_end))
+  (paragraph
+    (text))
+  (horizontal_rule))
+
+================================================================================ ZNAK
+All heading levels and inline heading content
+================================================================================ ZNAK
+= One
+== Two
+=== Three
+==== Four
+===== Five
+====== Six
+= *Bold* and =highlight=
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (heading
+    (heading_marker)
+    (text))
+  (heading
+    (heading_marker)
+    (text))
+  (heading
+    (heading_marker)
+    (text))
+  (heading
+    (heading_marker)
+    (text))
+  (heading
+    (heading_marker)
+    (text))
+  (heading
+    (heading_marker)
+    (text))
+  (heading
+    (heading_marker)
+    (bold
+      (text))
+    (text)
+    (highlight
+      (text))))
+
+================================================================================ ZNAK
+Comments blank lines and consecutive paragraphs
+================================================================================ ZNAK
+\\ A comment with *literal markup*
+
+First paragraph line.
+Second paragraph line.
+
+\\ Another comment
+
+Final paragraph.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (comment)
+  (paragraph
+    (text))
+  (paragraph
+    (text))
+  (comment)
+  (paragraph
+    (text)))
+
+================================================================================ ZNAK
+Blockquote empty lines headings and multiline attribution
+================================================================================ ZNAK
+> Quote with *bold*
+>
+> == Quoted heading
+> More quoted text.
+>
+>-- First attribution
+>-- Second attribution
+
+Outside quote.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (blockquote
+    (blockquote_line
+      (blockquote_marker)
+      (text)
+      (bold
+        (text)))
+    (blockquote_line
+      (blockquote_marker))
+    (blockquote_line
+      (blockquote_marker)
+      (heading
+        (heading_marker)
+        (text)))
+    (blockquote_line
+      (blockquote_marker)
+      (text))
+    (blockquote_line
+      (blockquote_marker))
+    (attribution
+      (attribution_marker)
+      (text)
+      (attribution_marker)
+      (text)))
+  (paragraph
+    (text)))
+
+================================================================================ ZNAK
+Mixed list markers at one level form separate lists
+================================================================================ ZNAK
+- First unordered
+- Second unordered
++ First ordered
++ Second ordered
+- Unordered again
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (unordered_list
+    (unordered_list_item
+      (unordered_list_marker)
+      (text))
+    (unordered_list_item
+      (unordered_list_marker)
+      (text)))
+  (ordered_list
+    (ordered_list_item
+      (ordered_list_marker)
+      (text))
+    (ordered_list_item
+      (ordered_list_marker)
+      (text)))
+  (unordered_list
+    (unordered_list_item
+      (unordered_list_marker)
+      (text))))
+
+================================================================================ ZNAK
+Nested lists alternate markers and dedent to siblings
+================================================================================ ZNAK
+- Outer unordered
+  + Nested ordered
+    - Deep unordered
+    - Deep sibling
+  + Nested sibling
+- Outer sibling
+
++ Outer ordered
+  - Nested unordered
+    + Deep ordered
+  - Nested sibling
++ Outer sibling
+
+Outside lists.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (unordered_list
+    (unordered_list_item
+      (unordered_list_marker)
+      (text)
+      (list_item_body
+        (ordered_list
+          (ordered_list_item
+            (ordered_list_marker)
+            (text)
+            (list_item_body
+              (unordered_list
+                (unordered_list_item
+                  (unordered_list_marker)
+                  (text))
+                (unordered_list_item
+                  (unordered_list_marker)
+                  (text)))))
+          (ordered_list_item
+            (ordered_list_marker)
+            (text)))))
+    (unordered_list_item
+      (unordered_list_marker)
+      (text)))
+  (ordered_list
+    (ordered_list_item
+      (ordered_list_marker)
+      (text)
+      (list_item_body
+        (unordered_list
+          (unordered_list_item
+            (unordered_list_marker)
+            (text)
+            (list_item_body
+              (ordered_list
+                (ordered_list_item
+                  (ordered_list_marker)
+                  (text)))))
+          (unordered_list_item
+            (unordered_list_marker)
+            (text)))))
+    (ordered_list_item
+      (ordered_list_marker)
+      (text)))
+  (paragraph
+    (text)))
+
+================================================================================ ZNAK
+List bodies contain paragraphs headings and quotes
+================================================================================ ZNAK
+- Item with body
+  Continuation paragraph.
+
+  = Nested heading
+  > Nested quote
+- Sibling
++ Ordered body
+  Paragraph inside ordered item.
++ Ordered sibling
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (unordered_list
+    (unordered_list_item
+      (unordered_list_marker)
+      (text)
+      (list_item_body
+        (paragraph
+          (text))
+        (heading
+          (heading_marker)
+          (text))
+        (blockquote
+          (blockquote_line
+            (blockquote_marker)
+            (text)))))
+    (unordered_list_item
+      (unordered_list_marker)
+      (text)))
+  (ordered_list
+    (ordered_list_item
+      (ordered_list_marker)
+      (text)
+      (list_item_body
+        (paragraph
+          (text))))
+    (ordered_list_item
+      (ordered_list_marker)
+      (text))))
+
+================================================================================ ZNAK
+Empty list items and empty heading
+================================================================================ ZNAK
+- 
+- Content
++ 
++ Content
+
+= 
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (unordered_list
+    (unordered_list_item
+      (unordered_list_marker))
+    (unordered_list_item
+      (unordered_list_marker)
+      (text)))
+  (ordered_list
+    (ordered_list_item
+      (ordered_list_marker))
+    (ordered_list_item
+      (ordered_list_marker)
+      (text)))
+  (heading
+    (heading_marker)))
+
+================================================================================ ZNAK
+Math blocks preserve raw syntax and empty blocks
+================================================================================ ZNAK
+$$
+a^2 + b^2 = c^2
+$inline-looking$
+$$$
+$$ not a closing fence
+$$
+
+$$
+$$
+
+After math with $x+y$.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (math_block
+    (math_fence_start)
+    (math_content)
+    (math_fence_end))
+  (math_block
+    (math_fence_start)
+    (math_fence_end))
+  (paragraph
+    (text)
+    (inline_math
+      (math_content))
+    (text)))
+
+================================================================================ ZNAK
+Table separators and inline cell content
+================================================================================ ZNAK
+| First | Second |
+| --- | ----- |
+| *bold* | [link]<https://example.org> |
+| - | -- |
+| $x+y$ | =highlight= |
+
+After table.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (table
+    (table_row
+      (table_marker)
+      (table_cell
+        (text))
+      (table_cell
+        (text)))
+    (table_separator
+      (table_marker))
+    (table_row
+      (table_marker)
+      (table_cell
+        (text)
+        (bold
+          (text))
+        (text))
+      (table_cell
+        (text)
+        (link
+          (link_label
+            (text))
+          (bare_link
+            (url)))
+        (text)))
+    (table_separator
+      (table_marker))
+    (table_row
+      (table_marker)
+      (table_cell
+        (text)
+        (inline_math
+          (math_content))
+        (text))
+      (table_cell
+        (text)
+        (highlight
+          (text))
+        (text))))
+  (paragraph
+    (text)))
+
+================================================================================ ZNAK
+Single column tables and repeated separators
+================================================================================ ZNAK
+| Header |
+| ---|
+| Row |
+| -- |
+| Final |
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (table
+    (table_row
+      (table_marker)
+      (table_cell
+        (text)))
+    (table_separator
+      (table_marker))
+    (table_row
+      (table_marker)
+      (table_cell
+        (text)))
+    (table_separator
+      (table_marker))
+    (table_row
+      (table_marker)
+      (table_cell
+        (text)))))
+
+================================================================================ ZNAK
+Indented code and math blocks close inside list bodies before sibling and dedent
+================================================================================ ZNAK
+- Item with code
+  ````text
+  ```
+  Raw *code* content.
+  ````
+  Paragraph after code inside item.
+- Sibling after code
++ Item with math
+  $$
+  x^2 + y^2 = z^2
+  $$
+  Paragraph after math inside item.
++ Sibling after math
+
+Outside both lists.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (unordered_list
+    (unordered_list_item
+      (unordered_list_marker)
+      (text)
+      (list_item_body
+        (code_block
+          (code_fence_start)
+          (language)
+          (code_content)
+          (code_fence_end))
+        (paragraph
+          (text))))
+    (unordered_list_item
+      (unordered_list_marker)
+      (text)))
+  (ordered_list
+    (ordered_list_item
+      (ordered_list_marker)
+      (text)
+      (list_item_body
+        (math_block
+          (math_fence_start)
+          (math_content)
+          (math_fence_end))
+        (paragraph
+          (text))))
+    (ordered_list_item
+      (ordered_list_marker)
+      (text)))
+  (paragraph
+    (text)))

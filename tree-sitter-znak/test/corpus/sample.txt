@@ -1,0 +1,378 @@
+================================================================================ ZNAK
+Complete repository sample test.zn
+================================================================================ ZNAK
+---
+key = value
+title = a title that contains = equal signs
+---
+
+\\ This is a comment
+
+= heading 1
+
+== heading 2
+
+=== heading 3
+
+==== heading 4
+
+===== heading 5
+
+====== heading 6
+
+> blockquote content
+>
+> = heading in blockquote
+>
+>-- blockquote attribution
+>-- over multiple lines
+>-- combined into one
+
+- unordered list item
+- list item
+  - 2 space indentation
+  - nested list item
+    + nested ordered list item
+
++ ordered list item
++ list item
+  + 2 space indentation
+  + nested list item
+    - nested unordered list item
+
+```
+Code here
+```
+
+````znak
+Nested code blocks with additional backticks
+
+```py
+print("nested hello world")
+```
+````
+
+::: name [Inline markup](https://example.org)
+Normal block content here.
+
+= Including headings
+:::
+
+:::: block1 A title
+A container with 4 colons
+
+::: block2
+A nested container
+:::
+::::
+
+$$
+a^2 + b^2 = c^2
+$$
+
+| Table | header | here  |
+| ----- | ------ | ----- |
+| Table | body   | here  |
+| left  | center | right |
+| ----- | ------ | ----- |
+| Table | footer | here  |
+
+---
+
+-----
+
+![Figure caption and alt text]<https://example.org/image/url.png>
+
+This is a sentence with *bold*, /italics/, ~strikethrough~, _subscript_, ^superscript^, =highlight=, `inline code`, ``py print("highlighted inline code")``, [a link]<https://example.org>, <https://example.org/a/bare/link>, and inline $x+y$ math.
+
+You can escape these by using `\`:
+
+This is a sentence with \*bold\*, \/italics\/, \~strikethrough\~, \_subscript\_, \^superscript\^, \=highlight\=, \`inline code\`, \`\`py print("highlighted inline code")\`\`, \[a link]\<https:\/\/example.org>, \<https:\/\/example.org\/a\/bare\/link>, and inline \$x+y\$ math.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (frontmatter
+    (frontmatter_start)
+    (frontmatter_entry
+      (frontmatter_key)
+      (frontmatter_value))
+    (frontmatter_entry
+      (frontmatter_key)
+      (frontmatter_value))
+    (frontmatter_end))
+  (comment)
+  (heading
+    (heading_marker)
+    (text))
+  (heading
+    (heading_marker)
+    (text))
+  (heading
+    (heading_marker)
+    (text))
+  (heading
+    (heading_marker)
+    (text))
+  (heading
+    (heading_marker)
+    (text))
+  (heading
+    (heading_marker)
+    (text))
+  (blockquote
+    (blockquote_line
+      (blockquote_marker)
+      (text))
+    (blockquote_line
+      (blockquote_marker))
+    (blockquote_line
+      (blockquote_marker)
+      (heading
+        (heading_marker)
+        (text)))
+    (blockquote_line
+      (blockquote_marker))
+    (attribution
+      (attribution_marker)
+      (text)
+      (attribution_marker)
+      (text)
+      (attribution_marker)
+      (text)))
+  (unordered_list
+    (unordered_list_item
+      (unordered_list_marker)
+      (text))
+    (unordered_list_item
+      (unordered_list_marker)
+      (text)
+      (list_item_body
+        (unordered_list
+          (unordered_list_item
+            (unordered_list_marker)
+            (text))
+          (unordered_list_item
+            (unordered_list_marker)
+            (text)
+            (list_item_body
+              (ordered_list
+                (ordered_list_item
+                  (ordered_list_marker)
+                  (text)))))))))
+  (ordered_list
+    (ordered_list_item
+      (ordered_list_marker)
+      (text))
+    (ordered_list_item
+      (ordered_list_marker)
+      (text)
+      (list_item_body
+        (ordered_list
+          (ordered_list_item
+            (ordered_list_marker)
+            (text))
+          (ordered_list_item
+            (ordered_list_marker)
+            (text)
+            (list_item_body
+              (unordered_list
+                (unordered_list_item
+                  (unordered_list_marker)
+                  (text)))))))))
+  (code_block
+    (code_fence_start)
+    (code_content)
+    (code_fence_end))
+  (code_block
+    (code_fence_start)
+    (language)
+    (code_content)
+    (code_fence_end))
+  (container
+    (container_fence_start)
+    (container_name)
+    (container_title
+      (bracketed_text
+        (link_label
+          (text)))
+      (text)
+      (italic)
+      (text))
+    (paragraph
+      (text))
+    (heading
+      (heading_marker)
+      (text))
+    (container_fence_end))
+  (container
+    (container_fence_start)
+    (container_name)
+    (container_title
+      (text))
+    (paragraph
+      (text))
+    (container
+      (container_fence_start)
+      (container_name)
+      (paragraph
+        (text))
+      (container_fence_end))
+    (container_fence_end))
+  (math_block
+    (math_fence_start)
+    (math_content)
+    (math_fence_end))
+  (table
+    (table_row
+      (table_marker)
+      (table_cell
+        (text))
+      (table_cell
+        (text))
+      (table_cell
+        (text)))
+    (table_separator
+      (table_marker))
+    (table_row
+      (table_marker)
+      (table_cell
+        (text))
+      (table_cell
+        (text))
+      (table_cell
+        (text)))
+    (table_row
+      (table_marker)
+      (table_cell
+        (text))
+      (table_cell
+        (text))
+      (table_cell
+        (text)))
+    (table_separator
+      (table_marker))
+    (table_row
+      (table_marker)
+      (table_cell
+        (text))
+      (table_cell
+        (text))
+      (table_cell
+        (text))))
+  (paragraph
+    (text))
+  (horizontal_rule)
+  (paragraph
+    (image
+      (link_label
+        (text))
+      (bare_link
+        (url))))
+  (paragraph
+    (text)
+    (bold
+      (text))
+    (text)
+    (italic
+      (text))
+    (text)
+    (strikethrough
+      (text))
+    (text)
+    (subscript
+      (text))
+    (text)
+    (superscript
+      (text))
+    (text)
+    (highlight
+      (text))
+    (text)
+    (inline_code
+      (code_content))
+    (text)
+    (highlighted_inline_code
+      (inline_language)
+      (code_content))
+    (text)
+    (link
+      (link_label
+        (text))
+      (bare_link
+        (url)))
+    (text)
+    (bare_link
+      (url))
+    (text)
+    (inline_math
+      (math_content))
+    (text))
+  (paragraph
+    (text)
+    (inline_code
+      (code_content))
+    (text))
+  (paragraph
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (escape)
+    (text)
+    (escape)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (punctuation)
+    (escape)
+    (text)
+    (escape)
+    (escape)
+    (text)
+    (punctuation)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)
+    (punctuation)
+    (text)
+    (escape)
+    (text)
+    (escape)
+    (text)))

@@ -1,0 +1,13 @@
+id = "znak"
+name = "Znak"
+version = "0.1.0"
+schema_version = 1
+authors = ["noClaps <contact@zerolimits.dev>"]
+description = "Znak language support with syntax highlighting and embedded code languages."
+repository = "https://github.com/noClaps/zed-znak"
+
+[grammars.znak]
+repository = "https://github.com/noClaps/zed-znak"
+# Pin this to a commit containing the generated grammar before publishing.
+rev = "main"
+path = "tree-sitter-znak"

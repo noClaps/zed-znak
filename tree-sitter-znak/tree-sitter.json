@@ -1,0 +1,40 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "znak",
+      "camelcase": "Znak",
+      "title": "Znak",
+      "scope": "source.znak",
+      "file-types": ["znak", "zn"],
+      "injection-regex": "^znak$",
+      "class-name": "TreeSitterZnak"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "0BSD",
+    "description": "Znak grammar for tree-sitter",
+    "authors": [
+      {
+        "name": "noClaps",
+        "email": "contact@zerolimits.dev",
+        "url": "https://zerolimits.dev"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/noClaps/zed-znak",
+      "funding": ""
+    }
+  },
+  "bindings": {
+    "c": false,
+    "go": false,
+    "java": false,
+    "node": false,
+    "python": false,
+    "rust": false,
+    "swift": false,
+    "zig": false
+  }
+}
