@@ -369,3 +369,160 @@ Highlighted ``js a`b`` code.
       (inline_language)
       (code_content))
     (text)))
+
+================================================================================ ZNAK
+Inline code keeps raw ampersands less than signs and entity spellings
+================================================================================ ZNAK
+`a < b && c &amp; &lt; <tag>` and ``html <b title="a&b">&amp;</b>``.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (inline_code
+      (code_content))
+    (text)
+    (highlighted_inline_code
+      (inline_language)
+      (code_content))
+    (text)))
+
+================================================================================ ZNAK
+Image captions parse all inline formatting rather than raw alt text
+================================================================================ ZNAK
+![*bold* /italic/ ~strike~ _sub_ ^super^ =highlight= $x+y$ `a < b & c` ``html <b>&</b>``]<image.png>
+= After formatted figure
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (image
+      (link_label
+        (bold
+          (text))
+        (text)
+        (italic
+          (text))
+        (text)
+        (strikethrough
+          (text))
+        (text)
+        (subscript
+          (text))
+        (text)
+        (superscript
+          (text))
+        (text)
+        (highlight
+          (text))
+        (text)
+        (inline_math
+          (math_content))
+        (text)
+        (inline_code
+          (code_content))
+        (text)
+        (highlighted_inline_code
+          (inline_language)
+          (code_content)))
+      (bare_link
+        (url))))
+  (heading
+    (heading_marker)
+    (text)))
+
+================================================================================ ZNAK
+Image captions contain links bare links and raw nested brackets
+================================================================================ ZNAK
+![Caption [*linked* /label/]<https://example.org/link> <https://example.org/bare> [outer [inner]] end]<image.png>
+> After linked figure
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (image
+      (link_label
+        (text)
+        (link
+          (link_label
+            (bold
+              (text))
+            (text)
+            (italic
+              (text)))
+          (bare_link
+            (url)))
+        (text)
+        (bare_link
+          (url))
+        (text)
+        (bracketed_text
+          (link_label
+            (text)
+            (bracketed_text
+              (link_label
+                (text)))))
+        (text))
+      (bare_link
+        (url))))
+  (blockquote
+    (blockquote_line
+      (blockquote_marker)
+      (text))))
+
+================================================================================ ZNAK
+Empty image caption stays absent before adjacent list
+================================================================================ ZNAK
+![]<image.png>
+- After empty image
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (image
+      (bare_link
+        (url))))
+  (unordered_list
+    (unordered_list_item
+      (unordered_list_marker)
+      (text))))
+
+================================================================================ ZNAK
+Captioned and empty images between adjacent fenced blocks
+================================================================================ ZNAK
+$$
+x=y
+$$
+![*caption*]<figure.png> ![]<image.png>
+```
+a < b & c
+```
+After images and code.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (math_block
+    (math_fence_start)
+    (math_content)
+    (math_fence_end))
+  (paragraph
+    (image
+      (link_label
+        (bold
+          (text)))
+      (bare_link
+        (url)))
+    (text)
+    (image
+      (bare_link
+        (url))))
+  (code_block
+    (code_fence_start)
+    (code_content)
+    (code_fence_end))
+  (paragraph
+    (text)))

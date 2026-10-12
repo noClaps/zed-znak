@@ -251,6 +251,8 @@ export default grammar({
           $.highlighted_inline_code,
           $.inline_math,
           $.inline_raw,
+          $.link,
+          $.bare_link,
           $.bracketed_text,
           alias(token(prec(-1, /[^\]\\\r\n]/)), $.punctuation),
         ),

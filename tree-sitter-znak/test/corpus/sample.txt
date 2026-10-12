@@ -52,7 +52,7 @@ print("nested hello world")
 ```
 ````
 
-::: name [Inline markup](https://example.org)
+::: name [Inline markup]<https://example.org>
 Normal block content here.
 
 = Including headings
@@ -88,6 +88,12 @@ This is a sentence with *bold*, /italics/, ~strikethrough~, _subscript_, ^supers
 You can escape these by using `\`:
 
 This is a sentence with \*bold\*, \/italics\/, \~strikethrough\~, \_subscript\_, \^superscript\^, \=highlight\=, \`inline code\`, \`\`py print("highlighted inline code")\`\`, \[a link]\<https:\/\/example.org>, \<https:\/\/example.org\/a\/bare\/link>, and inline \$x+y\$ math.
+
+{{
+<p>This contains raw code that'll be embedded as-is into the final output<p>
+}}
+
+It can be used to embed raw {{<html>}}.
 
 -------------------------------------------------------------------------------- ZNAK
 
@@ -193,12 +199,11 @@ This is a sentence with \*bold\*, \/italics\/, \~strikethrough\~, \_subscript\_,
     (container_fence_start)
     (container_name)
     (container_title
-      (bracketed_text
+      (link
         (link_label
-          (text)))
-      (text)
-      (italic)
-      (text))
+          (text))
+        (bare_link
+          (url))))
     (paragraph
       (text))
     (heading
@@ -375,4 +380,13 @@ This is a sentence with \*bold\*, \/italics\/, \~strikethrough\~, \_subscript\_,
     (escape)
     (text)
     (escape)
+    (text))
+  (raw_block
+    (raw_fence_start)
+    (raw_content)
+    (raw_fence_end))
+  (paragraph
+    (text)
+    (inline_raw
+      (raw_content))
     (text)))

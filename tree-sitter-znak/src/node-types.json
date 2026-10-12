@@ -947,6 +947,10 @@
       "required": true,
       "types": [
         {
+          "type": "bare_link",
+          "named": true
+        },
+        {
           "type": "bold",
           "named": true
         },
@@ -984,6 +988,10 @@
         },
         {
           "type": "line_break",
+          "named": true
+        },
+        {
+          "type": "link",
           "named": true
         },
         {

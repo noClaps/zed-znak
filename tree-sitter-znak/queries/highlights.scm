@@ -23,6 +23,7 @@
 (inline_math) @text.literal
 
 (link_label) @link_text
+(image caption: (link_label) @title)
 (url) @link_uri
 (escape) @string.escape
 (line_break) @string.escape

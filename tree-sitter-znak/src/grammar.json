@@ -1704,6 +1704,14 @@
           },
           {
             "type": "SYMBOL",
+            "name": "link"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "bare_link"
+          },
+          {
+            "type": "SYMBOL",
             "name": "bracketed_text"
           },
           {

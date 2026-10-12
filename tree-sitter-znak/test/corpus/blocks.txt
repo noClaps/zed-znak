@@ -519,3 +519,209 @@ Outside both lists.
       (text)))
   (paragraph
     (text)))
+
+================================================================================ ZNAK
+Unordered list immediately followed by heading
+================================================================================ ZNAK
+- Final item
+= Following heading
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (unordered_list
+    (unordered_list_item
+      (unordered_list_marker)
+      (text)))
+  (heading
+    (heading_marker)
+    (text)))
+
+================================================================================ ZNAK
+Unordered list immediately followed by paragraph
+================================================================================ ZNAK
+- Final item
+Following paragraph.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (unordered_list
+    (unordered_list_item
+      (unordered_list_marker)
+      (text)))
+  (paragraph
+    (text)))
+
+================================================================================ ZNAK
+Unordered list immediately followed by blockquote
+================================================================================ ZNAK
+- Final item
+> Following quote
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (unordered_list
+    (unordered_list_item
+      (unordered_list_marker)
+      (text)))
+  (blockquote
+    (blockquote_line
+      (blockquote_marker)
+      (text))))
+
+================================================================================ ZNAK
+Ordered list immediately followed by heading
+================================================================================ ZNAK
++ Final item
+= Following heading
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (ordered_list
+    (ordered_list_item
+      (ordered_list_marker)
+      (text)))
+  (heading
+    (heading_marker)
+    (text)))
+
+================================================================================ ZNAK
+Ordered list immediately followed by paragraph
+================================================================================ ZNAK
++ Final item
+Following paragraph.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (ordered_list
+    (ordered_list_item
+      (ordered_list_marker)
+      (text)))
+  (paragraph
+    (text)))
+
+================================================================================ ZNAK
+Ordered list immediately followed by blockquote
+================================================================================ ZNAK
++ Final item
+> Following quote
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (ordered_list
+    (ordered_list_item
+      (ordered_list_marker)
+      (text)))
+  (blockquote
+    (blockquote_line
+      (blockquote_marker)
+      (text))))
+
+================================================================================ ZNAK
+Math closing fence immediately followed by heading
+================================================================================ ZNAK
+$$
+x < y & z
+$$
+= Following heading
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (math_block
+    (math_fence_start)
+    (math_content)
+    (math_fence_end))
+  (heading
+    (heading_marker)
+    (text)))
+
+================================================================================ ZNAK
+Math closing fence immediately followed by paragraph
+================================================================================ ZNAK
+$$
+x < y & z
+$$
+Following paragraph.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (math_block
+    (math_fence_start)
+    (math_content)
+    (math_fence_end))
+  (paragraph
+    (text)))
+
+================================================================================ ZNAK
+Math closing fence immediately followed by list
+================================================================================ ZNAK
+$$
+x < y & z
+$$
+- Following item
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (math_block
+    (math_fence_start)
+    (math_content)
+    (math_fence_end))
+  (unordered_list
+    (unordered_list_item
+      (unordered_list_marker)
+      (text))))
+
+================================================================================ ZNAK
+Empty math block immediately followed by paragraph
+================================================================================ ZNAK
+$$
+$$
+Following paragraph.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (math_block
+    (math_fence_start)
+    (math_fence_end))
+  (paragraph
+    (text)))
+
+================================================================================ ZNAK
+Adjacent math blocks consume each closing fence
+================================================================================ ZNAK
+$$
+a=b
+$$
+$$
+$$
+$$
+c=d
+$$
+= After adjacent math
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (math_block
+    (math_fence_start)
+    (math_content)
+    (math_fence_end))
+  (math_block
+    (math_fence_start)
+    (math_fence_end))
+  (math_block
+    (math_fence_start)
+    (math_content)
+    (math_fence_end))
+  (heading
+    (heading_marker)
+    (text)))

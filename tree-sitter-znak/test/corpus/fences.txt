@@ -238,3 +238,66 @@ After container.
     (container_fence_end))
   (paragraph
     (text)))
+
+================================================================================ ZNAK
+Plain code keeps raw ampersands and less than signs
+================================================================================ ZNAK
+```
+if a < b && c < d:
+    <tag attr="a&b"> &amp; &lt;
+```
+= After plain code
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (code_block
+    (code_fence_start)
+    (code_content)
+    (code_fence_end))
+  (heading
+    (heading_marker)
+    (text)))
+
+================================================================================ ZNAK
+Language code keeps raw ampersands and less than signs
+================================================================================ ZNAK
+```html
+<p title="a&b">a < b & c</p>
+```
+After language code.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (code_block
+    (code_fence_start)
+    (language)
+    (code_content)
+    (code_fence_end))
+  (paragraph
+    (text)))
+
+================================================================================ ZNAK
+Long code fence keeps shorter nested fences and raw HTML characters
+================================================================================ ZNAK
+````znak
+```html
+<p>a < b & c</p>
+```
+Inline `a < b & c` and ``html <b>&</b>`` stay raw.
+````
+- After nested code
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (code_block
+    (code_fence_start)
+    (language)
+    (code_content)
+    (code_fence_end))
+  (unordered_list
+    (unordered_list_item
+      (unordered_list_marker)
+      (text))))
