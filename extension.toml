@@ -8,5 +8,5 @@ repository = "https://github.com/noClaps/zed-znak"
 
 [grammars.znak]
 repository = "https://github.com/noClaps/zed-znak"
-rev = "5ea6b5d7dce0fb34f36f48bac7e0798360faabec"
+rev = "c8f47c3901a262fad400e1f16458c7d390244792"
 path = "tree-sitter-znak"
