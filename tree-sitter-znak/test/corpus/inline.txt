@@ -1,7 +1,7 @@
 ================================================================================ ZNAK
 All inline formatting code math and explicit line break
 ================================================================================ ZNAK
-Text *bold*, /italic/, ~strike~, _sub_, ^super^, =highlight=, `code`, ``py print("hi")``, $x+y$, and a break\ continued.
+Text *bold*, _italic_, ^super^, `code`, $x+y$, {{<span>raw</span>}}, and a break\ continued.
 
 -------------------------------------------------------------------------------- ZNAK
 
@@ -14,27 +14,17 @@ Text *bold*, /italic/, ~strike~, _sub_, ^super^, =highlight=, `code`, ``py print
     (italic
       (text))
     (text)
-    (strikethrough
-      (text))
-    (text)
-    (subscript
-      (text))
-    (text)
     (superscript
-      (text))
-    (text)
-    (highlight
       (text))
     (text)
     (inline_code
       (code_content))
     (text)
-    (highlighted_inline_code
-      (inline_language)
-      (code_content))
-    (text)
     (inline_math
       (math_content))
+    (text)
+    (inline_raw
+      (raw_content))
     (text)
     (line_break)
     (text)))
@@ -42,9 +32,9 @@ Text *bold*, /italic/, ~strike~, _sub_, ^super^, =highlight=, `code`, ``py print
 ================================================================================ ZNAK
 Nested inline formatting and escaped delimiters
 ================================================================================ ZNAK
-*bold /italic/ ~strike~ _sub_ ^super^ =highlight= `code` $x$*
-/italic *bold*/ ~strike *bold* /italic/~ _sub *bold*_ ^super /italic/^ =highlight *bold*=
-*escaped \* star* /escaped \/ slash/ =escaped \= equals=
+*bold _italic_ ^super^ `code` $x$ {{raw}}*
+_italic *bold*_ ^super _italic_^
+*escaped \* star* _escaped \_ underscore_ ^escaped \^ caret^
 
 -------------------------------------------------------------------------------- ZNAK
 
@@ -55,37 +45,18 @@ Nested inline formatting and escaped delimiters
       (italic
         (text))
       (text)
-      (strikethrough
-        (text))
-      (text)
-      (subscript
-        (text))
-      (text)
       (superscript
-        (text))
-      (text)
-      (highlight
         (text))
       (text)
       (inline_code
         (code_content))
       (text)
       (inline_math
-        (math_content)))
+        (math_content))
+      (text)
+      (inline_raw
+        (raw_content)))
     (italic
-      (text)
-      (bold
-        (text)))
-    (text)
-    (strikethrough
-      (text)
-      (bold
-        (text))
-      (text)
-      (italic
-        (text)))
-    (text)
-    (subscript
       (text)
       (bold
         (text)))
@@ -93,11 +64,6 @@ Nested inline formatting and escaped delimiters
     (superscript
       (text)
       (italic
-        (text)))
-    (text)
-    (highlight
-      (text)
-      (bold
         (text)))
     (bold
       (text)
@@ -109,7 +75,7 @@ Nested inline formatting and escaped delimiters
       (escape)
       (text))
     (text)
-    (highlight
+    (superscript
       (text)
       (escape)
       (text))))
@@ -117,7 +83,7 @@ Nested inline formatting and escaped delimiters
 ================================================================================ ZNAK
 Escapes keep markup literal and line breaks distinct
 ================================================================================ ZNAK
-\*bold\* \/italic\/ \~strike\~ \_sub\_ \^super\^ \=highlight\= \`code\` \$math\$ \[label\]\<url\> \! \\
+\*bold\* \_italic\_ \^super\^ \`code\` \$math\$ \[label\]\<url\> \{\{raw\}\} \! \\
 Before\ after.
 
 -------------------------------------------------------------------------------- ZNAK
@@ -147,13 +113,6 @@ Before\ after.
     (escape)
     (text)
     (escape)
-    (text)
-    (escape)
-    (text)
-    (escape)
-    (text)
-    (escape)
-    (text)
     (escape)
     (text)
     (escape)
@@ -161,6 +120,7 @@ Before\ after.
     (escape)
     (escape)
     (text)
+    (escape)
     (escape)
     (text)
     (escape)
@@ -174,7 +134,7 @@ Before\ after.
 Links images and recursively nested bracket labels
 ================================================================================ ZNAK
 [outer [inner [deep]] and *bold*]<https://example.org/a?x=1&y=2>
-![caption [nested [deep]] and /italic/]<https://example.org/image.png>
+![caption [nested [deep]] and _italic_]<https://example.org/image.png>
 []<https://example.org> ![]<image.png> <https://example.org/bare>
 [ordinary [nested] brackets]
 
@@ -257,7 +217,6 @@ Plain trailing backslash \
     (punctuation)
     (text)
     (text)
-    (punctuation)
     (text)
     (text)
     (punctuation)
@@ -266,16 +225,11 @@ Plain trailing backslash \
     (punctuation)
     (text)
     (text)
-    (punctuation)
-    (text)
     (text)
     (punctuation)
     (text)
     (text)
-    (punctuation)
-    (text)
-    (text)
-    (punctuation)
+    (inline_code)
     (text)
     (text)
     (punctuation)
@@ -302,12 +256,12 @@ Plain trailing backslash \
     (text)))
 
 ================================================================================ ZNAK
-Heading markers versus inline highlights and literal equals
+Heading markers versus ordinary equals text
 ================================================================================ ZNAK
-=highlight= at paragraph start
+=literal= at paragraph start
 ==not a heading
-Text =highlight= in paragraph
-= Actual heading with =highlight=
+Text =literal= in paragraph
+= Actual heading with =literal=
 == Heading with *bold*
 Plain a=b
 Plain x=y
@@ -316,20 +270,12 @@ Plain x=y
 
 (source_file
   (paragraph
-    (highlight
-      (text))
-    (text)
-    (highlight)
     (text)
     (text)
-    (highlight
-      (text))
     (text))
   (heading
     (heading_marker)
-    (text)
-    (highlight
-      (text)))
+    (text))
   (heading
     (heading_marker)
     (text)
@@ -337,24 +283,20 @@ Plain x=y
       (text)))
   (paragraph
     (text)
-    (punctuation)
-    (text)
-    (text)
-    (punctuation)
     (text)))
 
 ================================================================================ ZNAK
-Doubled backticks without language empty math and highlighted code
+Empty single backtick code spans and empty math
 ================================================================================ ZNAK
 Empty `` and $$ alongside `code` and $x$.
-Highlighted ``js a`b`` code.
+Empty code `` followed by `js a` and `b` code.
 
 -------------------------------------------------------------------------------- ZNAK
 
 (source_file
   (paragraph
     (text)
-    (punctuation)
+    (inline_code)
     (text)
     (inline_math)
     (text)
@@ -365,15 +307,19 @@ Highlighted ``js a`b`` code.
       (math_content))
     (text)
     (text)
-    (highlighted_inline_code
-      (inline_language)
+    (inline_code)
+    (text)
+    (inline_code
+      (code_content))
+    (text)
+    (inline_code
       (code_content))
     (text)))
 
 ================================================================================ ZNAK
 Inline code keeps raw ampersands less than signs and entity spellings
 ================================================================================ ZNAK
-`a < b && c &amp; &lt; <tag>` and ``html <b title="a&b">&amp;</b>``.
+`a < b && c &amp; &lt; <tag>` and `html <b title="a&b">&amp;</b>`.
 
 -------------------------------------------------------------------------------- ZNAK
 
@@ -382,15 +328,14 @@ Inline code keeps raw ampersands less than signs and entity spellings
     (inline_code
       (code_content))
     (text)
-    (highlighted_inline_code
-      (inline_language)
+    (inline_code
       (code_content))
     (text)))
 
 ================================================================================ ZNAK
 Image captions parse all inline formatting rather than raw alt text
 ================================================================================ ZNAK
-![*bold* /italic/ ~strike~ _sub_ ^super^ =highlight= $x+y$ `a < b & c` ``html <b>&</b>``]<image.png>
+![*bold* _italic_ ^super^ $x+y$ `a < b & c` {{<b>&</b>}}]<image.png>
 = After formatted figure
 
 -------------------------------------------------------------------------------- ZNAK
@@ -405,16 +350,7 @@ Image captions parse all inline formatting rather than raw alt text
         (italic
           (text))
         (text)
-        (strikethrough
-          (text))
-        (text)
-        (subscript
-          (text))
-        (text)
         (superscript
-          (text))
-        (text)
-        (highlight
           (text))
         (text)
         (inline_math
@@ -423,9 +359,8 @@ Image captions parse all inline formatting rather than raw alt text
         (inline_code
           (code_content))
         (text)
-        (highlighted_inline_code
-          (inline_language)
-          (code_content)))
+        (inline_raw
+          (raw_content)))
       (bare_link
         (url))))
   (heading
@@ -435,7 +370,7 @@ Image captions parse all inline formatting rather than raw alt text
 ================================================================================ ZNAK
 Image captions contain links bare links and raw nested brackets
 ================================================================================ ZNAK
-![Caption [*linked* /label/]<https://example.org/link> <https://example.org/bare> [outer [inner]] end]<image.png>
+![Caption [*linked* _label_]<https://example.org/link> <https://example.org/bare> [outer [inner]] end]<image.png>
 > After linked figure
 
 -------------------------------------------------------------------------------- ZNAK
@@ -525,4 +460,82 @@ After images and code.
     (code_content)
     (code_fence_end))
   (paragraph
+    (text)))
+
+================================================================================ ZNAK
+Legacy slash italics are ordinary text
+================================================================================ ZNAK
+/italics/ and /escaped \/ slash/
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (text)
+    (escape)
+    (text)))
+
+================================================================================ ZNAK
+Legacy strikethrough is ordinary text
+================================================================================ ZNAK
+~strike~ and ~removed~
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (text)))
+
+================================================================================ ZNAK
+Legacy highlight is ordinary text
+================================================================================ ZNAK
+=mark= at paragraph start
+Text =mark= and =plain= are literal.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (text)
+    (text)))
+
+================================================================================ ZNAK
+Legacy subscript underscores now produce italic spans
+================================================================================ ZNAK
+_sub_ and _former-sub_ and _italic *bold*_
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (italic
+      (text))
+    (text)
+    (italic
+      (text))
+    (text)
+    (italic
+      (text)
+      (bold
+        (text)))))
+
+================================================================================ ZNAK
+Legacy highlighted_inline_code and inline_language become empty code around ordinary text
+================================================================================ ZNAK
+Before ``py print("hi")`` after.
+Language-looking ``js ordinary text`` has no inline language.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (paragraph
+    (text)
+    (inline_code)
+    (text)
+    (inline_code)
+    (text)
+    (text)
+    (inline_code)
+    (text)
+    (inline_code)
     (text)))

@@ -84,7 +84,7 @@ All heading levels and inline heading content
 ==== Four
 ===== Five
 ====== Six
-= *Bold* and =highlight=
+= *Bold* and _italic_
 
 -------------------------------------------------------------------------------- ZNAK
 
@@ -112,7 +112,7 @@ All heading levels and inline heading content
     (bold
       (text))
     (text)
-    (highlight
+    (italic
       (text))))
 
 ================================================================================ ZNAK
@@ -388,7 +388,7 @@ Table separators and inline cell content
 | --- | ----- |
 | *bold* | [link]<https://example.org> |
 | - | -- |
-| $x+y$ | =highlight= |
+| $x+y$ | _italic_ |
 
 After table.
 
@@ -430,7 +430,7 @@ After table.
         (text))
       (table_cell
         (text)
-        (highlight
+        (italic
           (text))
         (text))))
   (paragraph
@@ -725,3 +725,135 @@ $$
   (heading
     (heading_marker)
     (text)))
+
+================================================================================ ZNAK
+Blockquote lines preserve leading and trailing whitespace
+================================================================================ ZNAK
+>   leading spaces and trailing spaces  
+> 	leading tab and trailing tab	
+> Quote with *bold*  
+> = Heading with trailing spaces  
+
+Outside quote.
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (blockquote
+    (blockquote_line
+      (blockquote_marker)
+      (text))
+    (blockquote_line
+      (blockquote_marker)
+      (text))
+    (blockquote_line
+      (blockquote_marker)
+      (text)
+      (bold
+        (text))
+      (text))
+    (blockquote_line
+      (blockquote_marker)
+      (heading
+        (heading_marker)
+        (text))))
+  (paragraph
+    (text)))
+
+================================================================================ ZNAK
+Blockquote indented equals remain inline text rather than headings
+================================================================================ ZNAK
+>   = Not a heading  
+> 	= Not a tab-indented heading	
+> = Actual heading
+> Quote with _italic_ after indented equals
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (blockquote
+    (blockquote_line
+      (blockquote_marker)
+      (text))
+    (blockquote_line
+      (blockquote_marker)
+      (text))
+    (blockquote_line
+      (blockquote_marker)
+      (heading
+        (heading_marker)
+        (text)))
+    (blockquote_line
+      (blockquote_marker)
+      (text)
+      (italic
+        (text))
+      (text))))
+
+================================================================================ ZNAK
+Blockquote line starts recognize formatting code math images links and raw
+================================================================================ ZNAK
+> *bold*
+> _italic_
+> ^sup^
+> `code`
+> $x$
+> ![*caption* and _italic_]<figure.png>
+> [*label* and _italic_]<https://example.org>
+> <https://example.org/bare>
+> {{<span>raw</span>}}
+
+-------------------------------------------------------------------------------- ZNAK
+
+(source_file
+  (blockquote
+    (blockquote_line
+      (blockquote_marker)
+      (bold
+        (text)))
+    (blockquote_line
+      (blockquote_marker)
+      (italic
+        (text)))
+    (blockquote_line
+      (blockquote_marker)
+      (superscript
+        (text)))
+    (blockquote_line
+      (blockquote_marker)
+      (inline_code
+        (code_content)))
+    (blockquote_line
+      (blockquote_marker)
+      (inline_math
+        (math_content)))
+    (blockquote_line
+      (blockquote_marker)
+      (image
+        (link_label
+          (bold
+            (text))
+          (text)
+          (italic
+            (text)))
+        (bare_link
+          (url))))
+    (blockquote_line
+      (blockquote_marker)
+      (link
+        (link_label
+          (bold
+            (text))
+          (text)
+          (italic
+            (text)))
+        (bare_link
+          (url))))
+    (blockquote_line
+      (blockquote_marker)
+      (bare_link
+        (url)))
+    (blockquote_line
+      (blockquote_marker)
+      (inline_raw
+        (raw_content)))))

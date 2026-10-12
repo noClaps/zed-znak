@@ -1,5 +1,5 @@
 ================================================================================ ZNAK
-Complete repository sample test.zn
+Complete self-contained sample.zn
 ================================================================================ ZNAK
 ---
 key = value
@@ -20,9 +20,11 @@ title = a title that contains = equal signs
 
 ====== heading 6
 
-> blockquote content
+> blockquote content with _italics_
 >
 > = heading in blockquote
+>   leading indentation and trailing spaces
+>   = indented text, not a heading
 >
 >-- blockquote attribution
 >-- over multiple lines
@@ -42,6 +44,10 @@ title = a title that contains = equal signs
 
 ```
 Code here
+```
+
+```py
+print("hello world")
 ```
 
 ````znak
@@ -81,19 +87,21 @@ $$
 
 -----
 
-![Figure caption and alt text]<https://example.org/image/url.png>
+![Figure caption with *bold* and _italics_]<https://example.org/image/url.png>
 
-This is a sentence with *bold*, /italics/, ~strikethrough~, _subscript_, ^superscript^, =highlight=, `inline code`, ``py print("highlighted inline code")``, [a link]<https://example.org>, <https://example.org/a/bare/link>, and inline $x+y$ math.
+This is a sentence with *bold*, _italics_, ^superscript^, `inline code`, [a link]<https://example.org>, <https://example.org/a/bare/link>, and inline $x+y$ math.
+Nested *bold with _italics_ and ^superscript^* and an explicit break\ continued.
 
 You can escape these by using `\`:
 
-This is a sentence with \*bold\*, \/italics\/, \~strikethrough\~, \_subscript\_, \^superscript\^, \=highlight\=, \`inline code\`, \`\`py print("highlighted inline code")\`\`, \[a link]\<https:\/\/example.org>, \<https:\/\/example.org\/a\/bare\/link>, and inline \$x+y\$ math.
+Escaped \*bold\*, \_italics\_, \^superscript\^, \`inline code\`, \[a link\]\<https://example.org\>, \<https://example.org/a/bare/link\>, \$x+y\$, and \{\{raw\}\}.
 
 {{
-<p>This contains raw code that'll be embedded as-is into the final output<p>
+<p>This contains raw code embedded as-is into the final output.</p>
+*bold* _italics_ $math$ `code` [label]<url> remain raw.
 }}
 
-It can be used to embed raw {{<html>}}.
+It can be used to embed raw {{<html>}}, an empty span {{}}, and *formatted {{<b>raw</b>}} text*.
 
 -------------------------------------------------------------------------------- ZNAK
 
@@ -129,7 +137,9 @@ It can be used to embed raw {{<html>}}.
   (blockquote
     (blockquote_line
       (blockquote_marker)
-      (text))
+      (text)
+      (italic
+        (text)))
     (blockquote_line
       (blockquote_marker))
     (blockquote_line
@@ -137,6 +147,12 @@ It can be used to embed raw {{<html>}}.
       (heading
         (heading_marker)
         (text)))
+    (blockquote_line
+      (blockquote_marker)
+      (text))
+    (blockquote_line
+      (blockquote_marker)
+      (text))
     (blockquote_line
       (blockquote_marker))
     (attribution
@@ -188,6 +204,11 @@ It can be used to embed raw {{<html>}}.
                   (text)))))))))
   (code_block
     (code_fence_start)
+    (code_content)
+    (code_fence_end))
+  (code_block
+    (code_fence_start)
+    (language)
     (code_content)
     (code_fence_end))
   (code_block
@@ -271,7 +292,12 @@ It can be used to embed raw {{<html>}}.
   (paragraph
     (image
       (link_label
-        (text))
+        (text)
+        (bold
+          (text))
+        (text)
+        (italic
+          (text)))
       (bare_link
         (url))))
   (paragraph
@@ -282,23 +308,10 @@ It can be used to embed raw {{<html>}}.
     (italic
       (text))
     (text)
-    (strikethrough
-      (text))
-    (text)
-    (subscript
-      (text))
-    (text)
     (superscript
       (text))
     (text)
-    (highlight
-      (text))
-    (text)
     (inline_code
-      (code_content))
-    (text)
-    (highlighted_inline_code
-      (inline_language)
       (code_content))
     (text)
     (link
@@ -312,6 +325,17 @@ It can be used to embed raw {{<html>}}.
     (text)
     (inline_math
       (math_content))
+    (text)
+    (text)
+    (bold
+      (text)
+      (italic
+        (text))
+      (text)
+      (superscript
+        (text)))
+    (text)
+    (line_break)
     (text))
   (paragraph
     (text)
@@ -339,7 +363,6 @@ It can be used to embed raw {{<html>}}.
     (escape)
     (text)
     (escape)
-    (text)
     (escape)
     (text)
     (escape)
@@ -349,20 +372,6 @@ It can be used to embed raw {{<html>}}.
     (escape)
     (text)
     (escape)
-    (escape)
-    (text)
-    (escape)
-    (escape)
-    (text)
-    (escape)
-    (text)
-    (punctuation)
-    (escape)
-    (text)
-    (escape)
-    (escape)
-    (text)
-    (punctuation)
     (text)
     (escape)
     (text)
@@ -370,15 +379,6 @@ It can be used to embed raw {{<html>}}.
     (escape)
     (text)
     (escape)
-    (text)
-    (escape)
-    (text)
-    (escape)
-    (text)
-    (punctuation)
-    (text)
-    (escape)
-    (text)
     (escape)
     (text))
   (raw_block
@@ -389,4 +389,12 @@ It can be used to embed raw {{<html>}}.
     (text)
     (inline_raw
       (raw_content))
+    (text)
+    (inline_raw)
+    (text)
+    (bold
+      (text)
+      (inline_raw
+        (raw_content))
+      (text))
     (text)))

@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := test
 .PHONY: build test
 
-SAMPLE ?= ../znak/test.zn
+SAMPLE ?= tree-sitter-znak/test/sample.zn
 SAMPLE_PATH := $(abspath $(SAMPLE))
 
 build:

@@ -36,12 +36,8 @@ export default grammar({
     $._newline,
     $._bold_start,
     $._italic_start,
-    $._strikethrough_start,
-    $._subscript_start,
     $._superscript_start,
-    $._highlight_start,
     $._inline_code_start,
-    $._highlighted_code_start,
     $._inline_math_start,
     $._bracket_start,
     $._bare_link_start,
@@ -167,12 +163,8 @@ export default grammar({
         $.line_break,
         $.bold,
         $.italic,
-        $.strikethrough,
-        $.subscript,
         $.superscript,
-        $.highlight,
         $.inline_code,
-        $.highlighted_inline_code,
         $.inline_math,
         $.link,
         $.bare_link,
@@ -180,32 +172,19 @@ export default grammar({
         $.bracketed_text,
         $.punctuation,
       ),
-    text: () => /[^\\*\/~_^=`$\[\]<>!|{}\r\n]+/,
-    punctuation: () => token(prec(-1, /``|[\\*\/~_^=`$\[\]<>!{}]/)),
+    text: () => /[^\\*_^`$\[\]<>!|{}\r\n]+/,
+    punctuation: () => token(prec(-1, /[\\*_^`$\[\]<>!{}]/)),
     escape: () => token(prec(2, /\\[^ \r\n]/)),
     line_break: () => "\\ ",
     bold: ($) => formatted($, $._bold_start, "*", "bold"),
-    italic: ($) => formatted($, $._italic_start, "/", "italic"),
-    strikethrough: ($) =>
-      formatted($, $._strikethrough_start, "~", "strikethrough"),
-    subscript: ($) => formatted($, $._subscript_start, "_", "subscript"),
+    italic: ($) => formatted($, $._italic_start, "_", "italic"),
     superscript: ($) => formatted($, $._superscript_start, "^", "superscript"),
-    highlight: ($) => formatted($, $._highlight_start, "=", "highlight"),
     inline_code: ($) =>
       seq(
         $._inline_code_start,
         optional(alias(/[^`\r\n]+/, $.code_content)),
         "`",
       ),
-    highlighted_inline_code: ($) =>
-      seq(
-        $._highlighted_code_start,
-        field("language", $.inline_language),
-        $._space,
-        optional(alias(/([^`\r\n]|`[^`\r\n])+/, $.code_content)),
-        "``",
-      ),
-    inline_language: () => /[^ `\r\n]+/,
     inline_math: ($) =>
       seq(
         $._inline_math_start,
@@ -243,12 +222,8 @@ export default grammar({
           $.line_break,
           $.bold,
           $.italic,
-          $.strikethrough,
-          $.subscript,
           $.superscript,
-          $.highlight,
           $.inline_code,
-          $.highlighted_inline_code,
           $.inline_math,
           $.inline_raw,
           $.link,
@@ -264,8 +239,8 @@ export default grammar({
   },
 });
 
-// The compiler recursively parses formatting contents; the enclosing delimiter
-// itself terminates the span, so it must not be a fallback punctuation token.
+// An enclosing formatting delimiter terminates the span, so it must not be a
+// fallback punctuation token within that span.
 /**
  * @param {GrammarSymbols<string>} $
  * @param {RuleOrLiteral} start
@@ -273,15 +248,8 @@ export default grammar({
  * @param {string} ownRule
  */
 function formatted($, start, delimiter, ownRule) {
-  const formats = [
-    "bold",
-    "italic",
-    "strikethrough",
-    "subscript",
-    "superscript",
-    "highlight",
-  ];
-  const punctuation = "\\*/~_^=`$[]<>!|{}".replace(delimiter, "");
+  const formats = ["bold", "italic", "superscript"];
+  const punctuation = "\\*_^`$[]<>!|{}".replace(delimiter, "");
   const escaped = punctuation.replace(/[\\\]\[\^\-]/g, "\\$&");
   return seq(
     start,
@@ -293,7 +261,6 @@ function formatted($, start, delimiter, ownRule) {
         ...formats.filter((name) => name !== ownRule).map((name) => $[name]),
         $.inline_raw,
         $.inline_code,
-        $.highlighted_inline_code,
         $.inline_math,
         $.link,
         $.bare_link,

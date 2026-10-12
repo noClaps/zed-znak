@@ -10,12 +10,11 @@
 
 (bold) @emphasis.strong
 (italic) @emphasis
-(strikethrough) @emphasis
-(subscript) @emphasis
+
 (superscript) @emphasis
-(highlight) @emphasis.strong
+
 (inline_code) @text.literal
-(highlighted_inline_code) @text.literal
+
 (code_content) @text.literal
 (math_content) @text.literal
 (raw_content) @text.literal
@@ -44,6 +43,6 @@
 (container_name) @type
 (container_title) @title
 (language) @label
-(inline_language) @label
+
 (table_marker) @punctuation.delimiter
 (table_separator) @punctuation.special

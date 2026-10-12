@@ -127,7 +127,7 @@ Nested variable length containers close innermost first
 Outer paragraph.
 :::: middle Middle title
 Middle paragraph.
-::: inner Inner =highlight=
+::: inner Inner _italic_
 Inner paragraph.
 :::
 Middle resumes.
@@ -159,7 +159,7 @@ Outside containers.
         (container_name)
         (container_title
           (text)
-          (highlight
+          (italic
             (text)))
         (paragraph
           (text))
@@ -285,7 +285,7 @@ Long code fence keeps shorter nested fences and raw HTML characters
 ```html
 <p>a < b & c</p>
 ```
-Inline `a < b & c` and ``html <b>&</b>`` stay raw.
+Inline `a < b & c` and {{<b>&</b>}} stay raw.
 ````
 - After nested code
 

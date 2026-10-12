@@ -28,12 +28,11 @@ enum Token {
   NEWLINE,
   BOLD_START,
   ITALIC_START,
-  STRIKETHROUGH_START,
-  SUBSCRIPT_START,
+
   SUPERSCRIPT_START,
-  HIGHLIGHT_START,
+
   INLINE_CODE_START,
-  HIGHLIGHTED_CODE_START,
+
   INLINE_MATH_START,
   BRACKET_START,
   BARE_LINK_START,
@@ -251,21 +250,13 @@ static bool inline_start(TSLexer *lexer, const bool *valid) {
   case '*':
     symbol = BOLD_START;
     break;
-  case '/':
-    symbol = ITALIC_START;
-    break;
-  case '~':
-    symbol = STRIKETHROUGH_START;
-    break;
   case '_':
-    symbol = SUBSCRIPT_START;
+    symbol = ITALIC_START;
     break;
   case '^':
     symbol = SUPERSCRIPT_START;
     break;
-  case '=':
-    symbol = HIGHLIGHT_START;
-    break;
+
   case '`':
     symbol = INLINE_CODE_START;
     break;
@@ -276,21 +267,14 @@ static bool inline_start(TSLexer *lexer, const bool *valid) {
     return false;
   }
   advance(lexer);
-  bool doubled = delimiter == '`' && lexer->lookahead == '`';
-  if (doubled) {
-    symbol = HIGHLIGHTED_CODE_START;
-    advance(lexer);
-  }
+
   if (!valid[symbol])
     return false;
   lexer->mark_end(lexer);
   while (!eol(lexer)) {
     if (lexer->lookahead == delimiter) {
-      advance(lexer);
-      if (!doubled || lexer->lookahead == delimiter) {
-        lexer->result_symbol = symbol;
-        return true;
-      }
+      lexer->result_symbol = symbol;
+      return true;
     } else {
       advance(lexer);
     }
@@ -311,13 +295,12 @@ bool tree_sitter_znak_external_scanner_scan(void *payload, TSLexer *lexer,
   if (s->raw && (valid[RAW_CONTENT] || valid[RAW_FENCE_END]))
     return raw_block(s, lexer, valid, RAW_CONTENT);
 
-  if (!valid[PARAGRAPH_START] && !valid[HEADING_MARKER] &&
+  if (!valid[PARAGRAPH_START] &&
+      (!valid[HEADING_MARKER] || lexer->lookahead != '=') &&
       lexer->lookahead > 0 && lexer->lookahead < 128 &&
-      strchr("*/~_^=`$[<!{", lexer->lookahead) &&
-      (valid[BOLD_START] || valid[ITALIC_START] || valid[STRIKETHROUGH_START] ||
-       valid[SUBSCRIPT_START] || valid[SUPERSCRIPT_START] ||
-       valid[HIGHLIGHT_START] || valid[INLINE_CODE_START] ||
-       valid[HIGHLIGHTED_CODE_START] || valid[INLINE_MATH_START] ||
+      strchr("*_^`$[<!{", lexer->lookahead) &&
+      (valid[BOLD_START] || valid[ITALIC_START] || valid[SUPERSCRIPT_START] ||
+       valid[INLINE_CODE_START] || valid[INLINE_MATH_START] ||
        valid[BRACKET_START] || valid[BARE_LINK_START] || valid[IMAGE_START] ||
        valid[INLINE_RAW_START]))
     return inline_start(lexer, valid);

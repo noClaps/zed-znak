@@ -174,8 +174,6 @@ Nonblank tab prefixed lines remain text at top level and in lists
   (paragraph
     (text)
     (text)
-    (punctuation)
-    (text)
     (text))
   (unordered_list
     (unordered_list_item
@@ -183,8 +181,6 @@ Nonblank tab prefixed lines remain text at top level and in lists
       (text)
       (list_item_body
         (paragraph
-          (text)
-          (punctuation)
           (text)
           (text))))
     (unordered_list_item

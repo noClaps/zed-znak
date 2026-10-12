@@ -3,7 +3,7 @@ Raw blocks interrupt paragraphs and keep markup opaque
 ================================================================================ ZNAK
 Before raw.
 {{
-<div>*bold* /italic/ [link]<url> $math$ `code`</div>
+<div>*bold* _italic_ [link]<url> $math$ `code`</div>
 = Not a heading
 - Not a list
 | Not | a table |
@@ -150,7 +150,7 @@ Outside.
 ================================================================================ ZNAK
 Inline raw markup is opaque and single braces remain content
 ================================================================================ ZNAK
-Before {{*bold* /italic/ ~strike~ _sub_ ^super^ =mark= `code` $math$ [label]<url> \* | {single} end}} after.
+Before {{*bold* _italic_ ^super^ `code` $math$ [label]<url> \* | {single} end}} after.
 
 -------------------------------------------------------------------------------- ZNAK
 
@@ -182,8 +182,8 @@ Empty {{}} and {{}}{{value}}.
 Inline raw in a heading link label and formatting
 ================================================================================ ZNAK
 = Heading {{*literal*}} end
-[Label {{/literal/}}]<https://example.org>
-*Bold {{/literal/}} end* /Italic {{_literal_}} end/ =Mark {{^literal^}} end=
+[Label {{_literal_}}]<https://example.org>
+*Bold {{_literal_}} end* _Italic {{*literal*}} end_ ^Super {{^literal^}} end^
 
 -------------------------------------------------------------------------------- ZNAK
 
@@ -214,7 +214,7 @@ Inline raw in a heading link label and formatting
         (raw_content))
       (text))
     (text)
-    (highlight
+    (superscript
       (text)
       (inline_raw
         (raw_content))

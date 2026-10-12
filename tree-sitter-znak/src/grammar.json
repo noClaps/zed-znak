@@ -755,27 +755,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "strikethrough"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "subscript"
-        },
-        {
-          "type": "SYMBOL",
           "name": "superscript"
         },
         {
           "type": "SYMBOL",
-          "name": "highlight"
-        },
-        {
-          "type": "SYMBOL",
           "name": "inline_code"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "highlighted_inline_code"
         },
         {
           "type": "SYMBOL",
@@ -805,7 +789,7 @@
     },
     "text": {
       "type": "PATTERN",
-      "value": "[^\\\\*\\/~_^=`$\\[\\]<>!|{}\\r\\n]+"
+      "value": "[^\\\\*_^`$\\[\\]<>!|{}\\r\\n]+"
     },
     "punctuation": {
       "type": "TOKEN",
@@ -814,7 +798,7 @@
         "value": -1,
         "content": {
           "type": "PATTERN",
-          "value": "``|[\\\\*\\/~_^=`$\\[\\]<>!{}]"
+          "value": "[\\\\*_^`$\\[\\]<>!{}]"
         }
       }
     },
@@ -863,19 +847,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "strikethrough"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "subscript"
-              },
-              {
-                "type": "SYMBOL",
                 "name": "superscript"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "highlight"
               },
               {
                 "type": "SYMBOL",
@@ -884,10 +856,6 @@
               {
                 "type": "SYMBOL",
                 "name": "inline_code"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "highlighted_inline_code"
               },
               {
                 "type": "SYMBOL",
@@ -918,7 +886,7 @@
                     "value": -1,
                     "content": {
                       "type": "PATTERN",
-                      "value": "[\\\\/~_\\^=`$\\[\\]<>!|{}]"
+                      "value": "[\\\\_\\^`$\\[\\]<>!|{}]"
                     }
                   }
                 },
@@ -964,19 +932,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "strikethrough"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "subscript"
-              },
-              {
-                "type": "SYMBOL",
                 "name": "superscript"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "highlight"
               },
               {
                 "type": "SYMBOL",
@@ -985,10 +941,6 @@
               {
                 "type": "SYMBOL",
                 "name": "inline_code"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "highlighted_inline_code"
               },
               {
                 "type": "SYMBOL",
@@ -1019,209 +971,7 @@
                     "value": -1,
                     "content": {
                       "type": "PATTERN",
-                      "value": "[\\\\*~_\\^=`$\\[\\]<>!|{}]"
-                    }
-                  }
-                },
-                "named": true,
-                "value": "punctuation"
-              }
-            ]
-          }
-        },
-        {
-          "type": "STRING",
-          "value": "/"
-        }
-      ]
-    },
-    "strikethrough": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_strikethrough_start"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "text"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "escape"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "line_break"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "bold"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "italic"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "subscript"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "superscript"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "highlight"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "inline_raw"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "inline_code"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "highlighted_inline_code"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "inline_math"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "link"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "bare_link"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "image"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "bracketed_text"
-              },
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": -1,
-                    "content": {
-                      "type": "PATTERN",
-                      "value": "[\\\\*/_\\^=`$\\[\\]<>!|{}]"
-                    }
-                  }
-                },
-                "named": true,
-                "value": "punctuation"
-              }
-            ]
-          }
-        },
-        {
-          "type": "STRING",
-          "value": "~"
-        }
-      ]
-    },
-    "subscript": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_subscript_start"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "text"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "escape"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "line_break"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "bold"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "italic"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "strikethrough"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "superscript"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "highlight"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "inline_raw"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "inline_code"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "highlighted_inline_code"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "inline_math"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "link"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "bare_link"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "image"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "bracketed_text"
-              },
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": -1,
-                    "content": {
-                      "type": "PATTERN",
-                      "value": "[\\\\*/~\\^=`$\\[\\]<>!|{}]"
+                      "value": "[\\\\*\\^`$\\[\\]<>!|{}]"
                     }
                   }
                 },
@@ -1271,27 +1021,11 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "strikethrough"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "subscript"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "highlight"
-              },
-              {
-                "type": "SYMBOL",
                 "name": "inline_raw"
               },
               {
                 "type": "SYMBOL",
                 "name": "inline_code"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "highlighted_inline_code"
               },
               {
                 "type": "SYMBOL",
@@ -1322,7 +1056,7 @@
                     "value": -1,
                     "content": {
                       "type": "PATTERN",
-                      "value": "[\\\\*/~_=`$\\[\\]<>!|{}]"
+                      "value": "[\\\\*_`$\\[\\]<>!|{}]"
                     }
                   }
                 },
@@ -1335,107 +1069,6 @@
         {
           "type": "STRING",
           "value": "^"
-        }
-      ]
-    },
-    "highlight": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_highlight_start"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "text"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "escape"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "line_break"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "bold"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "italic"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "strikethrough"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "subscript"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "superscript"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "inline_raw"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "inline_code"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "highlighted_inline_code"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "inline_math"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "link"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "bare_link"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "image"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "bracketed_text"
-              },
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "TOKEN",
-                  "content": {
-                    "type": "PREC",
-                    "value": -1,
-                    "content": {
-                      "type": "PATTERN",
-                      "value": "[\\\\*/~_\\^`$\\[\\]<>!|{}]"
-                    }
-                  }
-                },
-                "named": true,
-                "value": "punctuation"
-              }
-            ]
-          }
-        },
-        {
-          "type": "STRING",
-          "value": "="
         }
       ]
     },
@@ -1468,52 +1101,6 @@
           "value": "`"
         }
       ]
-    },
-    "highlighted_inline_code": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_highlighted_code_start"
-        },
-        {
-          "type": "FIELD",
-          "name": "language",
-          "content": {
-            "type": "SYMBOL",
-            "name": "inline_language"
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_space"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "PATTERN",
-                "value": "([^`\\r\\n]|`[^`\\r\\n])+"
-              },
-              "named": true,
-              "value": "code_content"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": "``"
-        }
-      ]
-    },
-    "inline_language": {
-      "type": "PATTERN",
-      "value": "[^ `\\r\\n]+"
     },
     "inline_math": {
       "type": "SEQ",
@@ -1672,27 +1259,11 @@
           },
           {
             "type": "SYMBOL",
-            "name": "strikethrough"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "subscript"
-          },
-          {
-            "type": "SYMBOL",
             "name": "superscript"
           },
           {
             "type": "SYMBOL",
-            "name": "highlight"
-          },
-          {
-            "type": "SYMBOL",
             "name": "inline_code"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "highlighted_inline_code"
           },
           {
             "type": "SYMBOL",
@@ -1890,27 +1461,11 @@
     },
     {
       "type": "SYMBOL",
-      "name": "_strikethrough_start"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "_subscript_start"
-    },
-    {
-      "type": "SYMBOL",
       "name": "_superscript_start"
     },
     {
       "type": "SYMBOL",
-      "name": "_highlight_start"
-    },
-    {
-      "type": "SYMBOL",
       "name": "_inline_code_start"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "_highlighted_code_start"
     },
     {
       "type": "SYMBOL",
